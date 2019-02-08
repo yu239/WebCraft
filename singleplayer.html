@@ -29,12 +29,16 @@
 		</table>
 
 		<!-- Chatbox -->
-		<div id="chatbox" style="visibility: hidden">
+		<div id="chatbox">
 			<span id="chatbox_text"></span>
 		</div>
 		<input id="chatbox_entry" type="text" maxlength="100"
-		spellcheck="false" onkeypress="onChatEnter( this, event )"
-		       style="visibility: hidden" />
+		       spellcheck="false" onkeypress="onChatEnter(this, event)" />
+
+        <!-- Crosshair -->
+        <div id="crosshair">
+          <img id="crosshair_img" src="media/crosshair.png" alt=""/>
+        </div>
 
 		<!-- Initialisation code -->
 		<script type="text/javascript">
@@ -66,9 +70,6 @@
 		    player.on( "openChat", function() {
 				page.chatboxEntry.focus();
 			} );
-
-		    page.chatbox.style.visibility = null;
-		    page.chatboxEntry.style.visibility = null;
 
 			// Respond to chat message entry
    		    function onChatEnter( chatInput, keyEvent ) {
