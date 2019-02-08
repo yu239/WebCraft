@@ -15,7 +15,7 @@ MOUSE.MOVE = 3;
 // Creates a new local player manager.
 
 function Player()
-{	
+{
 }
 
 // setWorld( world )
@@ -29,6 +29,9 @@ Player.prototype.setWorld = function( world )
 	this.pos = world.spawnPoint;
 	this.velocity = new Vector( 0, 0, 0 );
 	this.angles = [ 0, Math.PI, 0 ];
+	this.yawStart = this.targetYaw = this.angles[1];
+	this.pitchStart = this.targetPitch = this.angles[0];
+    this.pointerLocked = false;
 	this.falling = false;
 	this.keys = {};
 	this.buildMaterial = BLOCK.DIRT;
@@ -51,13 +54,69 @@ Player.prototype.setClient = function( client )
 Player.prototype.setInputCanvas = function( id )
 {
 	var canvas = this.canvas = document.getElementById( id );
+    var player = this;
+
+    // Below we set up the pointer lock for this canvas
+    // Reference:
+    //   https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API
+    canvas.requestPointerLock = canvas.requestPointerLock ||
+        canvas.mozRequestPointerLock;
+    document.exitPointerLock = document.exitPointerLock ||
+        document.mozExitPointerLock;
+
+    // once clicking on the canvas, pointer lock is enabled
+    canvas.onclick = function() {
+        canvas.requestPointerLock();
+    };
+
+    // Hook for updating viewing angles
+    var updateAngles = function (e) {
+	    player.targetPitch = player.pitchStart - e.movementY / 200;
+	    player.targetYaw = player.yawStart + e.movementX / 200;
+        player.yawStart = player.targetYaw;
+        player.pitchStart = player.targetPitch;
+	    canvas.style.cursor = "move";
+    };
+
+    // Listen to the pointer lock change
+    var pointerLockChange = function () {
+        if (document.pointerLockElement === canvas ||
+            document.mozPointerLockElement === canvas) {
+            player.pointerLocked = true;
+            document.addEventListener("mousemove", updateAngles, false);
+        } else {
+            player.pointerLocked = false;
+            document.removeEventListener("mousemove", updateAngles, false);
+        }
+    };
+    document.addEventListener('pointerlockchange', pointerLockChange, false);
+    document.addEventListener('mozpointerlockchange', pointerLockChange, false);
 
 	var t = this;
-	document.onkeydown = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, true ); return false; } }
-	document.onkeyup = function( e ) { if ( e.target.tagName != "INPUT" ) { t.onKeyEvent( e.keyCode, false ); return false; } }
-	canvas.onmousedown = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e.which == 3 ); return false; }
-	canvas.onmouseup = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.UP, e.which == 3 ); return false; }
-	canvas.onmousemove = function( e ) { t.onMouseEvent( e.clientX, e.clientY, MOUSE.MOVE, e.which == 3 ); return false; }
+	document.onkeydown = function( e ) {
+        if ( e.target.tagName != "INPUT" ) {
+            t.onKeyEvent( e.keyCode, true );
+            return false;
+        }
+    }
+	document.onkeyup = function( e ) {
+        if ( e.target.tagName != "INPUT" ) {
+            t.onKeyEvent( e.keyCode, false );
+            return false;
+        }
+    }
+	canvas.onmousedown = function( e ) {
+        t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e.which == 3 );
+        return false;
+    }
+	canvas.onmouseup = function( e ) {
+        t.onMouseEvent( e.clientX, e.clientY, MOUSE.UP, e.which == 3 );
+        return false;
+    }
+	canvas.onmousemove = function( e ) {
+        t.onMouseEvent( e.clientX, e.clientY, MOUSE.MOVE, e.which == 3 );
+        return false;
+    }
 }
 
 // setMaterialSelector( id )
@@ -117,36 +176,21 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 	var key = String.fromCharCode( keyCode ).toLowerCase();
 	this.keys[key] = down;
 	this.keys[keyCode] = down;
-	
+
 	if ( !down && key == "t" && this.eventHandlers["openChat"] ) this.eventHandlers.openChat();
 }
 
 // onMouseEvent( x, y, type, rmb )
 //
 // Hook for mouse input.
-
 Player.prototype.onMouseEvent = function( x, y, type, rmb )
 {
-	if ( type == MOUSE.DOWN ) {
-		this.dragStart = { x: x, y: y };
-		this.mouseDown = true;
-		this.yawStart = this.targetYaw = this.angles[1];
-		this.pitchStart = this.targetPitch = this.angles[0];
-	} else if ( type == MOUSE.UP ) {
-		if ( Math.abs( this.dragStart.x - x ) + Math.abs( this.dragStart.y - y ) < 4 )	
-			this.doBlockAction( x, y, !rmb );
-
-		this.dragging = false;
-		this.mouseDown = false;
+	if ( type == MOUSE.UP && this.pointerLocked ) {
+		this.doBlockAction( this.canvas.width / 2, this.canvas.height / 2, !rmb );
 		this.canvas.style.cursor = "default";
-	} else if ( type == MOUSE.MOVE && this.mouseDown ) {
-		this.dragging = true;
-		this.targetPitch = this.pitchStart - ( y - this.dragStart.y ) / 200;
-		this.targetYaw = this.yawStart + ( x - this.dragStart.x ) / 200;
-
-		this.canvas.style.cursor = "move";
 	}
 }
+
 
 // doBlockAction( x, y )
 //
@@ -156,11 +200,11 @@ Player.prototype.doBlockAction = function( x, y, destroy )
 {
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
 	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - 4, bPos.y - 4, bPos.z - 4 ), new Vector( bPos.x + 4, bPos.y + 4, bPos.z + 4 ), x, y );
-	
+
 	if ( block != false )
 	{
 		var obj = this.client ? this.client : this.world;
-		
+
 		if ( destroy )
 			obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
 		else
@@ -193,21 +237,21 @@ Player.prototype.update = function()
 		var delta = ( new Date().getTime() - this.lastUpdate ) / 1000;
 
 		// View
-		if ( this.dragging )
-		{
-			this.angles[0] += ( this.targetPitch - this.angles[0] ) * 30 * delta;
-			this.angles[1] += ( this.targetYaw - this.angles[1] ) * 30 * delta;
-			if ( this.angles[0] < -Math.PI/2 ) this.angles[0] = -Math.PI/2;
-			if ( this.angles[0] > Math.PI/2 ) this.angles[0] = Math.PI/2;
-		}
+		this.angles[0] += ( this.targetPitch - this.angles[0] ) * 30 * delta;
+		this.angles[1] += ( this.targetYaw - this.angles[1] ) * 30 * delta;
+		if ( this.angles[0] < -Math.PI/2 ) this.angles[0] = -Math.PI/2;
+		if ( this.angles[0] > Math.PI/2 ) this.angles[0] = Math.PI/2;
 
 		// Gravity
 		if ( this.falling )
 			velocity.z += -0.5;
 
+        velocity.z = 0
 		// Jumping
 		if ( this.keys[" "] && !this.falling )
 			velocity.z = 8;
+        if ( this.keys["q"] && !this.falling )
+            velocity.z = -8;
 
 		// Walking
 		var walkVelocity = new Vector( 0, 0, 0 );
@@ -276,7 +320,7 @@ Player.prototype.resolveCollision = function( pos, bPos, velocity )
 	}
 
 	// Solve XY collisions
-	for( var i in collisionCandidates ) 
+	for( var i in collisionCandidates )
 	{
 		var side = collisionCandidates[i];
 
@@ -299,7 +343,7 @@ Player.prototype.resolveCollision = function( pos, bPos, velocity )
 	// Collect Z collision sides
 	collisionCandidates = [];
 
-	for ( var x = bPos.x - 1; x <= bPos.x + 1; x++ ) 
+	for ( var x = bPos.x - 1; x <= bPos.x + 1; x++ )
 	{
 		for ( var y = bPos.y - 1; y <= bPos.y + 1; y++ )
 		{
@@ -311,7 +355,7 @@ Player.prototype.resolveCollision = function( pos, bPos, velocity )
 	}
 
 	// Solve Z collisions
-	this.falling = true;
+//	this.falling = true;
 	for ( var i in collisionCandidates )
 	{
 		var face = collisionCandidates[i];
