@@ -500,7 +500,7 @@ Server.prototype.onBlockUpdate = function( socket, data )
 	if ( Math.sqrt( (data.x-world.spawnPoint.x)*(data.x-world.spawnPoint.x) + (data.y-world.spawnPoint.y)*(data.y-world.spawnPoint.y) + (data.z-world.spawnPoint.z)*(data.z-world.spawnPoint.z)  ) < 10 ) return false;
 
 	var material = BLOCK.fromId( data.mat );
-	if ( material == null || ( !material.spawnable && data.mat != 0 ) ) return false;
+	if ( material == null ) return false;
 
 	// Check if the user has authenticated themselves before allowing them to set blocks
     if ( socket._nickname != null  )

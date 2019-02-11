@@ -130,7 +130,7 @@ Player.prototype.setMaterialSelector = function( id )
 
 	for ( var mat in BLOCK )
 	{
-		if ( typeof( BLOCK[mat] ) == "object" && BLOCK[mat].spawnable == true )
+		if ( typeof( BLOCK[mat] ) == "object" )
 		{
 			var selector = document.createElement( "td" );
 			selector.style.backgroundPosition = texOffset + "px 0px";
