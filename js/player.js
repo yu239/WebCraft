@@ -32,9 +32,10 @@ Player.prototype.setWorld = function( world )
 	this.yawStart = this.targetYaw = this.angles[1];
 	this.pitchStart = this.targetPitch = this.angles[0];
     this.pointerLocked = false;
+    this.inventory_open = false;
 	this.falling = false;
 	this.keys = {};
-	this.buildMaterial = BLOCK.DIRT;
+	this.buildMaterial = BLOCK.GRASS_DIRT;
 	this.eventHandlers = {};
 }
 
@@ -125,21 +126,30 @@ Player.prototype.setInputCanvas = function( id )
 
 Player.prototype.setMaterialSelector = function( id )
 {
-	var tableRow = document.getElementById( id ).getElementsByTagName( "tr" )[0];
-	var texOffset = 0;
+    var table = document.getElementById(id);
+    var row_len = 13;  // the entire inventory is a 13x13 table
 
-	for ( var mat in BLOCK )
-	{
-		if ( typeof( BLOCK[mat] ) == "object" )
-		{
-			var selector = document.createElement( "td" );
-			selector.style.backgroundPosition = texOffset + "px 0px";
+    var count = 0;
+	for ( var mat in BLOCK ) {
+		if (mat != "AIR" && typeof(BLOCK[mat]) == "object") {
+            var c = count % row_len;
+            var r = Math.floor(count / row_len);
+            if (c == 0) {
+                var row = table.insertRow(r);
+            }
+
+			var selector = row.insertCell(c);
+			selector.style.backgroundPosition = (-c * 48) + "px " + (-r * 48) + "px";
+            selector.title = mat;
+
+            console.log(selector.style.backgroundPosition);
 
 			var pl = this;
 			selector.material = BLOCK[mat];
-			selector.onclick = function()
-			{
+			selector.onclick = function() {
 				this.style.opacity = "1.0";
+
+                console.log(this.material);
 
 				pl.prevSelector.style.opacity = null;
 				pl.prevSelector = this;
@@ -147,13 +157,12 @@ Player.prototype.setMaterialSelector = function( id )
 				pl.buildMaterial = this.material;
 			}
 
-			if ( mat == "DIRT" ) {
+			if (mat == "GRASS_DIRT") {
 				this.prevSelector = selector;
 				selector.style.opacity = "1.0";
 			}
 
-			tableRow.appendChild( selector );
-			texOffset -= 70;
+            count += 1;
 		}
 	}
 }
@@ -177,7 +186,18 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 	this.keys[key] = down;
 	this.keys[keyCode] = down;
 
-	if ( !down && key == "t" && this.eventHandlers["openChat"] ) this.eventHandlers.openChat();
+	if (!down && key == "t" && this.eventHandlers["openChat"]) {
+        this.eventHandlers.openChat();
+    }
+    if (!down && key == "e") {
+        if (!this.inventory_open && this.eventHandlers["openInventory"]) {
+            this.inventory_open = true;
+            this.eventHandlers.openInventory();
+        } else if (this.inventory_open && this.eventHandlers["closeInventory"]) {
+            this.inventory_open = false;
+            this.eventHandlers.closeInventory();
+        }
+    }
 }
 
 // onMouseEvent( x, y, type, rmb )

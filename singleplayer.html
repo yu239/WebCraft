@@ -24,8 +24,7 @@
 		<canvas id="renderSurface"></canvas>
 
 		<!-- Material selection -->
-		<table id="materialSelector">
-			<tr></tr>
+		<table id="materialSelector" align="center" style="visibility: hidden">
 		</table>
 
 		<!-- Chatbox -->
@@ -36,7 +35,7 @@
 		       spellcheck="false" onkeypress="onChatEnter(this, event)" />
 
         <!-- Crosshair -->
-        <div id="crosshair">
+        <div id="crosshair" style="visibility:visible">
           <img id="crosshair_img" src="media/crosshair.png" alt=""/>
         </div>
 
@@ -45,7 +44,11 @@
             var page = {};
             page.chatbox = document.getElementById( "chatbox" );
 			page.chatboxText = document.getElementById( "chatbox_text" );
-			page.chatboxEntry= document.getElementById( "chatbox_entry" );
+			page.chatboxEntry= document.getElementById(
+                "chatbox_entry" );
+            page.inventory = document.getElementById("materialSelector");
+            page.canvas = document.getElementById("renderSurface");
+            page.crosshair = document.getElementById("crosshair");
 
 			// Create a new flat world
 			var world = new World( 32, 32, 32 );
@@ -70,6 +73,20 @@
 		    player.on( "openChat", function() {
 				page.chatboxEntry.focus();
 			} );
+
+            player.on("openInventory", function() {
+                page.inventory.style.visibility = "visible";
+                page.crosshair.style.visibility = "hidden";
+                page.inventory.focus();
+                document.exitPointerLock();
+            });
+
+            player.on("closeInventory", function() {
+                page.inventory.style.visibility = "hidden";
+                page.crosshair.style.visibility = "visible";
+                page.inventory.blur();
+                page.canvas.requestPointerLock();
+            });
 
 			// Respond to chat message entry
    		    function onChatEnter( chatInput, keyEvent ) {

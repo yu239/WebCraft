@@ -39,17 +39,15 @@ body {
 
 #materialSelector {
 	position: relative;
-	margin: auto;
-
 	background: rgba( 0, 0, 0, 0.6 );
 }
 
 #materialSelector tr {
-	height: 70px;
+	height: 48px;
 }
 
 #materialSelector td {
-	width: 70px;
+	width: 48px;
 	margin: 0;
 	padding: 0;
 
@@ -57,7 +55,7 @@ body {
 
 	opacity: 0.3;
 
-	background: url( '../media/blockthumbs.png' );
+	background: url( '../media/inventory.png' );
 	background-position: 0px 0px;
 }
 

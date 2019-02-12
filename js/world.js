@@ -30,7 +30,7 @@ function World( sx, sy, sz )
 	this.sx = sx;
 	this.sy = sy;
 	this.sz = sz;
-	
+
 	this.players = {};
 }
 
@@ -42,11 +42,11 @@ function World( sx, sy, sz )
 World.prototype.createFlatWorld = function( height )
 {
 	this.spawnPoint = new Vector( this.sx / 2 + 0.5, this.sy / 2 + 0.5, height );
-	
+
 	for ( var x = 0; x < this.sx; x++ )
 		for ( var y = 0; y < this.sy; y++ )
 			for ( var z = 0; z < this.sz; z++ )
-				this.blocks[x][y][z] = z < height ? BLOCK.DIRT : BLOCK.AIR;
+				this.blocks[x][y][z] = z < height ? BLOCK.GRASS_DIRT : BLOCK.AIR;
 }
 
 // createFromString( str )
@@ -60,7 +60,7 @@ World.prototype.createFlatWorld = function( height )
 World.prototype.createFromString = function( str )
 {
 	var i = 0;
-	
+
 	for ( var x = 0; x < this.sx; x++ ) {
 		for ( var y = 0; y < this.sy; y++ ) {
 			for ( var z = 0; z < this.sz; z++ ) {
@@ -98,12 +98,12 @@ World.prototype.setBlock = function( x, y, z, type )
 World.prototype.toNetworkString = function()
 {
 	var blockArray = [];
-	
+
 	for ( var x = 0; x < this.sx; x++ )
 		for ( var y = 0; y < this.sy; y++ )
 			for ( var z = 0; z < this.sz; z++ )
 				blockArray.push( String.fromCharCode( 97 + this.blocks[x][y][z].id ) );
-	
+
 	return blockArray.join( "" );
 }
 
@@ -115,7 +115,7 @@ if ( typeof( exports ) != "undefined" )
 	// Load a world from a file previously saved with saveToFile().
 	// The world must have already been allocated with the
 	// appropriate dimensions.
-	
+
 	World.prototype.loadFromFile = function( filename )
 	{
 		var fs = require( "fs" );
@@ -129,17 +129,17 @@ if ( typeof( exports ) != "undefined" )
 			return false;
 		}
 	}
-	
+
 	// saveToFile( filename )
 	//
 	// Saves a world and the spawn point to a file.
 	// The world can be loaded from it afterwards with loadFromFile().
-	
+
 	World.prototype.saveToFile = function( filename )
 	{
 		var data = this.spawnPoint.x + "," + this.spawnPoint.y + "," + this.spawnPoint.z + "," + this.toNetworkString();
-		require( "fs" ).writeFileSync( filename, data );	
+		require( "fs" ).writeFileSync( filename, data );
 	}
-	
+
 	exports.World = World;
 }
