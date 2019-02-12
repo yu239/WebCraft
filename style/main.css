@@ -53,14 +53,14 @@ body {
 
 	cursor: pointer;
 
-	opacity: 0.3;
+	opacity: 0.5;
 
 	background: url( '../media/inventory.png' );
 	background-position: 0px 0px;
 }
 
 #materialSelector td:hover {
-	opacity: 0.8;
+	opacity: 1.0;
 }
 
 /* Username input */
