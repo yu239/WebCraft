@@ -37,6 +37,7 @@ Player.prototype.setWorld = function( world )
 	this.keys = {};
 	this.buildMaterial = BLOCK.GRASS_DIRT;
 	this.eventHandlers = {};
+    this.actions = []; // action history since beginning
 }
 
 // setClient( client )
@@ -142,18 +143,13 @@ Player.prototype.setMaterialSelector = function( id )
 			selector.style.backgroundPosition = (-c * 48) + "px " + (-r * 48) + "px";
             selector.title = mat;
 
-            console.log(selector.style.backgroundPosition);
-
 			var pl = this;
 			selector.material = BLOCK[mat];
 			selector.onclick = function() {
 				this.style.opacity = "1.0";
 
-                console.log(this.material);
-
 				pl.prevSelector.style.opacity = null;
 				pl.prevSelector = this;
-
 				pl.buildMaterial = this.material;
 			}
 
@@ -200,6 +196,17 @@ Player.prototype.onKeyEvent = function( keyCode, down )
     }
 }
 
+Player.prototype.actionsToString = function () {
+    var ret = "";
+    for (var i = 0; i < this.actions.length; i ++) {
+        var block = this.actions[i][0];
+        var id = this.actions[i][1];
+        var change = "[(" + block[0] + " " + block[1] + " " + block[2] + "): " + id + "]";
+        ret += change + ", ";
+    }
+    return ret;
+}
+
 // onMouseEvent( x, y, type, rmb )
 //
 // Hook for mouse input.
@@ -208,6 +215,10 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 	if ( type == MOUSE.UP && this.pointerLocked ) {
 		this.doBlockAction( this.canvas.width / 2, this.canvas.height / 2, !rmb );
 		this.canvas.style.cursor = "default";
+        // update the action history
+        if (this.eventHandlers["playerActions"]) {
+            this.eventHandlers.playerActions(this.actionsToString());
+        }
 	}
 }
 
@@ -221,14 +232,18 @@ Player.prototype.doBlockAction = function( x, y, destroy )
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
 	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - 4, bPos.y - 4, bPos.z - 4 ), new Vector( bPos.x + 4, bPos.y + 4, bPos.z + 4 ), x, y );
 
-	if ( block != false )
-	{
+	if ( block != false ) {
 		var obj = this.client ? this.client : this.world;
 
-		if ( destroy )
+		if (destroy) {
 			obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
-		else
+            this.actions.push([[block.x, block.y, block.z], BLOCK.AIR.id]);
+        }
+		else {
 			obj.setBlock( block.x + block.n.x, block.y + block.n.y, block.z + block.n.z, this.buildMaterial );
+            this.actions.push([[block.x + block.n.x, block.y + block.n.y, block.z + block.n.z],
+                              this.buildMaterial.id]);
+        }
 	}
 }
 
