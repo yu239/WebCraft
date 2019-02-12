@@ -34,11 +34,27 @@
 		<input id="chatbox_entry" type="text" maxlength="100"
 		       spellcheck="false" onkeypress="onChatEnter(this,event)" />
 
-        <input type="text" id="player_actions" readonly>
+        <!-- Action history -->
+        <div id="player_actions"> </div>
 
         <!-- Crosshair -->
         <div id="crosshair" style="visibility:visible">
           <img id="crosshair_img" src="media/crosshair.png" alt=""/>
+        </div>
+
+        <!-- Instructions -->
+        <div id="instructions">
+          <table>
+            <tr><td>w </td> <td>- Forward</td></tr>
+            <tr><td>s </td> <td>- Backward</td></tr>
+            <tr><td>a </td> <td>- Left</td></tr>
+            <tr><td>d </td> <td>- Right</td></tr>
+            <tr><td>space </td> <td>- Up</td></tr>
+            <tr><td>q </td> <td>- Down</td></tr>
+            <tr><td>e </td> <td>- Inventory</td></tr>
+            <tr><td>t </td> <td>- Chat</td></tr>
+            <tr><td>esc </td> <td>- Cursor</td></tr>
+          </table>
         </div>
 
 		<!-- Initialisation code -->
@@ -91,11 +107,11 @@
                 page.canvas.requestPointerLock();
             });
 
-          player.on("playerActions", function(actions) {
-              var str = actions.length > 100?
-                  actions.substr(actions.length - 100): actions;
-              page.player_actions.value = str;
-          });
+            player.on("playerActions", function(actions) {
+                var str = actions.length > 120?
+                    "... " + actions.substr(actions.length - 120): actions;
+                page.player_actions.innerHTML = "Actions: " + str;
+            });
 
 			// Respond to chat message entry
    		    function onChatEnter( chatInput, keyEvent ) {
