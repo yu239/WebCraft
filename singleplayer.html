@@ -127,6 +127,7 @@
 				chatInput.value = "";
 			}
 
+            var render_interval = 0.030; // (seconds)
 			// Render loop
 			setInterval( function()
 			{
@@ -145,7 +146,7 @@
 				render.setCamera( player.getEyePos().toArray(), player.angles );
 				render.draw();
 
-				while ( new Date().getTime() / 1000 - time < 0.016 );
+				while ( new Date().getTime() / 1000 - time < render_interval );
 			}, 1 );
 		</script>
 	</body>

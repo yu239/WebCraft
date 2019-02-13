@@ -127,6 +127,7 @@ Player.prototype.setInputCanvas = function( id )
 
 Player.prototype.setMaterialSelector = function( id )
 {
+    var player = this;
     var table = document.getElementById(id);
     var row_len = 13;  // the entire inventory is a 13x13 table
 
@@ -151,6 +152,10 @@ Player.prototype.setMaterialSelector = function( id )
 				pl.prevSelector.style.opacity = null;
 				pl.prevSelector = this;
 				pl.buildMaterial = this.material;
+
+                // once clicked, the inventory will close
+                player.inventory_open = false;
+                player.eventHandlers.closeInventory();
 			}
 
 			if (mat == "GRASS_DIRT") {
