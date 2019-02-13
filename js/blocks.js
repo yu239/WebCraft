@@ -964,7 +964,7 @@ BLOCK.NETHER_WART = {
 
 BLOCK.ENCHANTING_TABLE = {
     id: 116,
-    transparent: false,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [6, 10];

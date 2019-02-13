@@ -73,8 +73,8 @@ Player.prototype.setInputCanvas = function( id )
 
     // Hook for updating viewing angles
     var updateAngles = function (e) {
-	    player.targetPitch = player.pitchStart - e.movementY / 200;
-	    player.targetYaw = player.yawStart + e.movementX / 200;
+	    player.targetPitch = player.pitchStart - e.movementY / 600;
+	    player.targetYaw = player.yawStart + e.movementX / 600;
         player.yawStart = player.targetYaw;
         player.pitchStart = player.targetPitch;
 	    canvas.style.cursor = "move";
