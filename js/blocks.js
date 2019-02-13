@@ -27,11 +27,13 @@ BLOCK = {};
 // texture
 
 BLOCK.AIR = {
-	id: 0
+	id: 0,
+    transparent: true
 };
 
 BLOCK.STONE = {
     id: 1,
+    transparent: false,
     texture: function(world, lightmap, lit, x, y, z, dir) {
         return [1, 0];
     }
@@ -39,6 +41,7 @@ BLOCK.STONE = {
 
 BLOCK.GRASS_DIRT = {
 	id: 2,
+    transparent: false,
 	texture: function(world, lightmap, lit, x, y, z, dir){
 		if ( dir == DIRECTION.UP && lit )
 			return [12, 12];
@@ -51,6 +54,7 @@ BLOCK.GRASS_DIRT = {
 
 BLOCK.DIRT = {
     id: 3,
+    transparent: false,
     texture: function(world, lightmap, lit, x, y, z, dir) {
         return [2, 0];
     }
@@ -58,6 +62,7 @@ BLOCK.DIRT = {
 
 BLOCK.COBBLESTONE = {
 	id: 4,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [0, 1];
     }
@@ -65,6 +70,7 @@ BLOCK.COBBLESTONE = {
 
 BLOCK.PLANK = {
 	id: 5,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		return [4, 0];
 	}
@@ -72,6 +78,7 @@ BLOCK.PLANK = {
 
 BLOCK.OAK_SAPLING = {
     id: 6,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
 		    return TRANS_TEX;
@@ -83,6 +90,7 @@ BLOCK.OAK_SAPLING = {
 
 BLOCK.BEDROCK = {
 	id: 7,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [1, 1];
     }
@@ -90,6 +98,7 @@ BLOCK.BEDROCK = {
 
 BLOCK.FLOWING_WATER = {
     id: 8,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [13, 12];
     }
@@ -97,6 +106,7 @@ BLOCK.FLOWING_WATER = {
 
 BLOCK.STILL_WATER = {
     id: 9,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [13, 12];
     }
@@ -104,41 +114,49 @@ BLOCK.STILL_WATER = {
 
 BLOCK.FLOWING_LAVA = {
     id: 10,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [13, 14]; }
 };
 
 BLOCK.STILL_LAVA = {
     id: 11,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [13, 14]; }
 }
 
 BLOCK.SAND = {
 	id: 12,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [2, 1]; }
 };
 
 BLOCK.GRAVEL = {
 	id: 13,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [3, 1]; }
 };
 
 BLOCK.GOLD_ORE = {
     id: 14,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 2]; }
 };
 
 BLOCK.IRON_ORE = {
     id: 15,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [1, 2]; }
 };
 
 BLOCK.COAL_ORE = {
     id: 16,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [2, 2]; }
 };
 
 BLOCK.WOOD = {
 	id: 17,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir )
 	{
 		if ( dir == DIRECTION.UP || dir == DIRECTION.DOWN )
@@ -150,31 +168,37 @@ BLOCK.WOOD = {
 
 BLOCK.LEAVES = {
     id: 18,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [12, 14]; }
 };
 
 BLOCK.SPONGE = {
 	id: 19,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 3]; }
 };
 
 BLOCK.GLASS = {
 	id: 20,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [1, 3]; }
 };
 
 BLOCK.LAPIS_LAZULI_ORE = {
     id: 21,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 10]; }
 };
 
 BLOCK.LAPIS_LAZULI = {
     id: 22,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 9]; }
 };
 
 BLOCK.DISPENSER = {
     id: 23,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return [14, 3];
@@ -188,16 +212,19 @@ BLOCK.DISPENSER = {
 
 BLOCK.SANDSTONE = {
     id: 24,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 12]; }
 };
 
 BLOCK.NOTE_BLOCK = {
     id: 25,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [10, 4]; }
 };
 
 BLOCK.BED = {
     id: 26,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [7, 8];
@@ -213,6 +240,7 @@ BLOCK.BED = {
 
 BLOCK.STICKY_PISTON = {
     id: 29,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [10, 6];
@@ -226,6 +254,7 @@ BLOCK.STICKY_PISTON = {
 
 BLOCK.COBWEB = {
     id: 30,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [11, 0];
     }
@@ -233,6 +262,7 @@ BLOCK.COBWEB = {
 
 BLOCK.GRASS = {
     id: 31,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -244,6 +274,7 @@ BLOCK.GRASS = {
 
 BLOCK.DEAD_BUSH = {
     id: 32,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -255,6 +286,7 @@ BLOCK.DEAD_BUSH = {
 
 BLOCK.PISTON = {
     id: 33,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [11, 6];
@@ -268,6 +300,7 @@ BLOCK.PISTON = {
 
 BLOCK.WOOL = {
     id: 35,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [1, 8];
     }
@@ -275,6 +308,7 @@ BLOCK.WOOL = {
 
 BLOCK.DANDELION = {
     id: 36,
+    transparent: true,
     texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -286,6 +320,7 @@ BLOCK.DANDELION = {
 
 BLOCK.POPPY = {
     id: 37,
+    transparent: true,
     texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -297,6 +332,7 @@ BLOCK.POPPY = {
 
 BLOCK.TULIP = {
     id: 38,
+    transparent: true,
     texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -308,6 +344,7 @@ BLOCK.TULIP = {
 
 BLOCK.BROWN_MUSHROOM = {
     id: 39,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -319,6 +356,7 @@ BLOCK.BROWN_MUSHROOM = {
 
 BLOCK.RED_MUSHROOM = {
     id: 40,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -330,16 +368,19 @@ BLOCK.RED_MUSHROOM = {
 
 BLOCK.GOLD = {
 	id: 41,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [7, 1]; }
 };
 
 BLOCK.IRON = {
 	id: 42,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [6, 1]; }
 };
 
 BLOCK.DOUBLE_SLAB = {
     id: 43,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [5, 0];
     }
@@ -347,6 +388,7 @@ BLOCK.DOUBLE_SLAB = {
 
 BLOCK.SLAB = {
     id: 44,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -360,11 +402,13 @@ BLOCK.SLAB = {
 
 BLOCK.BRICK = {
 	id: 45,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [7, 0]; }
 };
 
 BLOCK.TNT = {
 	id: 46,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir )
 	{
 		if ( dir == DIRECTION.UP || dir == DIRECTION.DOWN )
@@ -376,6 +420,7 @@ BLOCK.TNT = {
 
 BLOCK.BOOKSHELF = {
 	id: 47,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir )
 	{
 		if ( dir == DIRECTION.UP || dir == DIRECTION.DOWN )
@@ -387,16 +432,19 @@ BLOCK.BOOKSHELF = {
 
 BLOCK.MOSS_STONE = {
     id: 48,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [4, 2]; }
 };
 
 BLOCK.OBSIDIAN = {
 	id: 49,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [5, 2]; }
 };
 
 BLOCK.TORCH = {
     id: 50,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -408,6 +456,7 @@ BLOCK.TORCH = {
 
 BLOCK.WOOD_STAIRS = {
     id: 53,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		return [4, 0];
 	}
@@ -415,6 +464,7 @@ BLOCK.WOOD_STAIRS = {
 
 BLOCK.CHEST = {
     id: 54,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return [9, 1];
@@ -428,16 +478,19 @@ BLOCK.CHEST = {
 
 BLOCK.DIAMOND_ORE = {
     id: 56,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [2, 3]; }
 };
 
 BLOCK.DIAMOND = {
 	id: 57,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [8, 1]; }
 };
 
 BLOCK.CRAFTING_TABLE = {
     id: 58,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return [11, 2];
@@ -449,6 +502,7 @@ BLOCK.CRAFTING_TABLE = {
 
 BLOCK.WHEAT = {
     id: 59,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -460,11 +514,13 @@ BLOCK.WHEAT = {
 
 BLOCK.FARMLAND = {
     id: 60,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [7, 5]; }
 };
 
 BLOCK.FURNACE = {
     id: 61,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return [14, 3];
@@ -478,6 +534,7 @@ BLOCK.FURNACE = {
 
 BLOCK.BURNING_FURNACE = {
     id: 62,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return [14, 3];
@@ -491,6 +548,7 @@ BLOCK.BURNING_FURNACE = {
 
 BLOCK.STANDING_SIGN = {
     id: 63,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -502,6 +560,7 @@ BLOCK.STANDING_SIGN = {
 
 BLOCK.WOOD_DOOR = {
     id: 64,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -513,6 +572,7 @@ BLOCK.WOOD_DOOR = {
 
 BLOCK.LADDER = {
     id: 65,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -524,6 +584,7 @@ BLOCK.LADDER = {
 
 BLOCK.COBBLESTONE_STAIRS = {
     id: 67,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [0, 1];
     }
@@ -531,6 +592,7 @@ BLOCK.COBBLESTONE_STAIRS = {
 
 BLOCK.STONE_PLATE = {
     id: 70,
+    transparent: false,
     texture: function(world, lightmap, lit, x, y, z, dir) {
         return [1, 0];
     }
@@ -538,6 +600,7 @@ BLOCK.STONE_PLATE = {
 
 BLOCK.IRON_DOOR = {
     id: 71,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -549,6 +612,7 @@ BLOCK.IRON_DOOR = {
 
 BLOCK.WOOD_PLATE = {
     id: 72,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		return [4, 0];
 	}
@@ -556,6 +620,7 @@ BLOCK.WOOD_PLATE = {
 
 BLOCK.REDSTONE_ORE = {
     id: 73,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		return [3, 3];
 	}
@@ -563,6 +628,7 @@ BLOCK.REDSTONE_ORE = {
 
 BLOCK.GLOWING_REDSTONE_ORE = {
     id: 74,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		return [3, 3];
 	}
@@ -570,6 +636,7 @@ BLOCK.GLOWING_REDSTONE_ORE = {
 
 BLOCK.REDSTONE_TORCH_ON = {
     id: 75,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -581,6 +648,7 @@ BLOCK.REDSTONE_TORCH_ON = {
 
 BLOCK.REDSTONE_TORCH_OFF = {
     id: 76,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -592,6 +660,7 @@ BLOCK.REDSTONE_TORCH_OFF = {
 
 BLOCK.ICE = {
     id: 79,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [3, 4];
 	}
@@ -599,6 +668,7 @@ BLOCK.ICE = {
 
 BLOCK.SNOW_BLOCK = {
     id: 80,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [2, 4];
 	}
@@ -606,6 +676,7 @@ BLOCK.SNOW_BLOCK = {
 
 BLOCK.CACTUS = {
     id: 81,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return [5, 4];
@@ -617,6 +688,7 @@ BLOCK.CACTUS = {
 
 BLOCK.CLAY = {
     id: 82,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [8, 4];
     }
@@ -624,6 +696,7 @@ BLOCK.CLAY = {
 
 BLOCK.SUGAR_CANES = {
     id: 83,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -635,6 +708,7 @@ BLOCK.SUGAR_CANES = {
 
 BLOCK.JUKEBOX = {
     id: 84,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [11, 4];
@@ -646,6 +720,7 @@ BLOCK.JUKEBOX = {
 
 BLOCK.OAK_FENCE = {
     id: 85,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -657,6 +732,7 @@ BLOCK.OAK_FENCE = {
 
 BLOCK.PUMPKIN = {
     id: 86,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [6, 6];
@@ -668,6 +744,7 @@ BLOCK.PUMPKIN = {
 
 BLOCK.NETHERRACK = {
     id: 87,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [7, 6];
     }
@@ -675,6 +752,7 @@ BLOCK.NETHERRACK = {
 
 BLOCK.SOUL_SAND = {
     id: 88,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [8, 6];
     }
@@ -682,6 +760,7 @@ BLOCK.SOUL_SAND = {
 
 BLOCK.GLOWSTONE = {
     id: 89,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [9, 6];
     }
@@ -689,6 +768,7 @@ BLOCK.GLOWSTONE = {
 
 BLOCK.LIT_PUMPKIN = {
     id: 91,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.FORWARD) {
             return [8, 7];
@@ -702,6 +782,7 @@ BLOCK.LIT_PUMPKIN = {
 
 BLOCK.STAINED_GLASS = {
     id: 95,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [3, 4];
     }
@@ -709,6 +790,7 @@ BLOCK.STAINED_GLASS = {
 
 BLOCK.MONSTER_EGG = {
     id: 97,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [5, 6];
     }
@@ -716,6 +798,7 @@ BLOCK.MONSTER_EGG = {
 
 BLOCK.STONE_BRICK = {
     id: 98,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [6, 3];
     }
@@ -723,6 +806,7 @@ BLOCK.STONE_BRICK = {
 
 BLOCK.BROWN_MUSHROOM_BLOCK = {
     id: 99,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [14, 7];
     }
@@ -730,6 +814,7 @@ BLOCK.BROWN_MUSHROOM_BLOCK = {
 
 BLOCK.RED_MUSHROOM_BLOCK = {
     id: 100,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [13, 7];
     }
@@ -737,6 +822,7 @@ BLOCK.RED_MUSHROOM_BLOCK = {
 
 BLOCK.IRON_BARS = {
     id: 101,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -748,11 +834,13 @@ BLOCK.IRON_BARS = {
 
 BLOCK.GLASS_PANE = {
     id: 102,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [1, 3]; }
 };
 
 BLOCK.MELON = {
     id: 103,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return [9, 8];
@@ -764,6 +852,7 @@ BLOCK.MELON = {
 
 BLOCK.PUMPKIN_STEM = {
     id: 104,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -775,6 +864,7 @@ BLOCK.PUMPKIN_STEM = {
 
 BLOCK.MELON_STEM = {
     id: 105,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -786,6 +876,7 @@ BLOCK.MELON_STEM = {
 
 BLOCK.VINES = {
     id: 106,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [11, 14];
     }
@@ -793,6 +884,7 @@ BLOCK.VINES = {
 
 BLOCK.FENCE_GATE = {
     id: 107,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -804,11 +896,13 @@ BLOCK.FENCE_GATE = {
 
 BLOCK.BRICK_STAIRS = {
     id: 108,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [7, 0]; }
 };
 
 BLOCK.STONE_STAIRS = {
     id: 109,
+    transparent: false,
     texture: function(world, lightmap, lit, x, y, z, dir) {
         return [1, 0];
     }
@@ -816,6 +910,7 @@ BLOCK.STONE_STAIRS = {
 
 BLOCK.MYCELIUM = {
     id: 110,
+    transparent: false,
     texture: function(world, lightmap, lit, x, y, z, dir) {
         if (dir == DIRECTION.UP) {
             return [14, 4];
@@ -829,6 +924,7 @@ BLOCK.MYCELIUM = {
 
 BLOCK.NETHER_BRICK = {
     id: 112,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [7, 6];
     }
@@ -836,6 +932,7 @@ BLOCK.NETHER_BRICK = {
 
 BLOCK.NETHER_BRICK_FENCE = {
     id: 113,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -847,6 +944,7 @@ BLOCK.NETHER_BRICK_FENCE = {
 
 BLOCK.NETHER_STAIRS = {
     id: 114,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [7, 6];
     }
@@ -854,6 +952,7 @@ BLOCK.NETHER_STAIRS = {
 
 BLOCK.NETHER_WART = {
     id: 115,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -865,6 +964,7 @@ BLOCK.NETHER_WART = {
 
 BLOCK.ENCHANTING_TABLE = {
     id: 116,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [6, 10];
@@ -878,6 +978,7 @@ BLOCK.ENCHANTING_TABLE = {
 
 BLOCK.BREWING_STAND = {
     id: 117,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -891,6 +992,7 @@ BLOCK.BREWING_STAND = {
 
 BLOCK.CAULDRON = {
     id: 118,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [10, 8];
@@ -904,6 +1006,7 @@ BLOCK.CAULDRON = {
 
 BLOCK.END_PORTAL_FRAME = {
     id: 120,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return [14, 9];
@@ -917,6 +1020,7 @@ BLOCK.END_PORTAL_FRAME = {
 
 BLOCK.END_STONE = {
     id: 121,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [15, 10];
     }
@@ -924,6 +1028,7 @@ BLOCK.END_STONE = {
 
 BLOCK.DOUBLE_SLAB2 = {
     id: 125,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [5, 0];
     }
@@ -931,6 +1036,7 @@ BLOCK.DOUBLE_SLAB2 = {
 
 BLOCK.WOOD_SLAB = {
     id: 126,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -944,11 +1050,13 @@ BLOCK.WOOD_SLAB = {
 
 BLOCK.SANDSTONE_STAIRS = {
     id: 128,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 12]; }
 };
 
 BLOCK.EMERALD_ORE = {
     id: 129,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [9, 11];
     }
@@ -956,6 +1064,7 @@ BLOCK.EMERALD_ORE = {
 
 BLOCK.EMERALD = {
     id: 133,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [9, 12];
     }
@@ -963,6 +1072,7 @@ BLOCK.EMERALD = {
 
 BLOCK.SPRUCE_STAIRS = {
     id: 134,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		return [4, 7];
 	}
@@ -970,6 +1080,7 @@ BLOCK.SPRUCE_STAIRS = {
 
 BLOCK.BIRCH_STAIRS = {
     id: 135,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		return [4, 7];
 	}
@@ -977,6 +1088,7 @@ BLOCK.BIRCH_STAIRS = {
 
 BLOCK.JUNGLE_STAIRS = {
     id: 136,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		return [4, 7];
 	}
@@ -984,6 +1096,7 @@ BLOCK.JUNGLE_STAIRS = {
 
 BLOCK.COBBLESTONE_WALL = {
     id: 139,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [0, 1];
     }
@@ -991,6 +1104,7 @@ BLOCK.COBBLESTONE_WALL = {
 
 BLOCK.CARROTS = {
     id: 141,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1002,6 +1116,7 @@ BLOCK.CARROTS = {
 
 BLOCK.POTATOS = {
     id: 142,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1013,6 +1128,7 @@ BLOCK.POTATOS = {
 
 BLOCK.TRAPPED_CHEST = {
     id: 146,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return [9, 1];
@@ -1026,6 +1142,7 @@ BLOCK.TRAPPED_CHEST = {
 
 BLOCK.REDSTONE = {
     id: 152,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [9, 13];
     }
@@ -1033,6 +1150,7 @@ BLOCK.REDSTONE = {
 
 BLOCK.QUARTZ = {
     id: 155,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [3, 13];
     }
@@ -1040,6 +1158,7 @@ BLOCK.QUARTZ = {
 
 BLOCK.QUARTZ_STAIRS = {
     id: 156,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [3, 13];
     }
@@ -1047,6 +1166,7 @@ BLOCK.QUARTZ_STAIRS = {
 
 BLOCK.DROPPER = {
     id: 158,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
             return [14, 3];
@@ -1060,6 +1180,7 @@ BLOCK.DROPPER = {
 
 BLOCK.HARDENED_CLAY = {
     id: 159,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [15, 1];
     }
@@ -1067,16 +1188,19 @@ BLOCK.HARDENED_CLAY = {
 
 BLOCK.STAINED_GLASS_PANE = {
     id: 160,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [1, 3]; }
 };
 
 BLOCK.LEAVES2 = {
     id: 161,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [5, 3]; }
 };
 
 BLOCK.WOOD2 = {
     id: 162,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
 		if ( dir == DIRECTION.UP || dir == DIRECTION.DOWN )
 			return [5, 1];
@@ -1087,6 +1211,7 @@ BLOCK.WOOD2 = {
 
 BLOCK.ACACIA_STAIRS = {
     id: 163,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [4, 7];
     }
@@ -1094,6 +1219,7 @@ BLOCK.ACACIA_STAIRS = {
 
 BLOCK.DARK_OAK_STAIRS = {
     id: 164,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [4, 7];
     }
@@ -1101,6 +1227,7 @@ BLOCK.DARK_OAK_STAIRS = {
 
 BLOCK.PRISMARINE = {
     id: 168,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [7, 14];
     }
@@ -1108,6 +1235,7 @@ BLOCK.PRISMARINE = {
 
 BLOCK.SEA_LANTERN = {
     id: 169,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [7, 4];
     }
@@ -1115,6 +1243,7 @@ BLOCK.SEA_LANTERN = {
 
 BLOCK.HARDENED_CLAY2 = {
     id: 172,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [15, 1];
     }
@@ -1122,6 +1251,7 @@ BLOCK.HARDENED_CLAY2 = {
 
 BLOCK.COAL = {
     id: 173,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [5, 2];
     }
@@ -1129,6 +1259,7 @@ BLOCK.COAL = {
 
 BLOCK.ICE2 = {
     id: 174,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [3, 4];
 	}
@@ -1136,6 +1267,7 @@ BLOCK.ICE2 = {
 
 BLOCK.FLOWER = {
     id:175,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -1147,21 +1279,25 @@ BLOCK.FLOWER = {
 
 BLOCK.RED_SANDSTONE = {
     id: 179,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 12]; }
 };
 
 BLOCK.RED_SANDSTONE_STAIRS = {
     id: 180,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 12]; }
 };
 
 BLOCK.DOUBLE_RED_SANDSTONE_SLAB = {
     id: 181,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [0, 12]; }
 };
 
 BLOCK.RED_SANDSTONE_SLAB = {
     id: 182,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -1175,6 +1311,7 @@ BLOCK.RED_SANDSTONE_SLAB = {
 
 BLOCK.FENCE_GATE2 = {
     id: 183,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -1186,6 +1323,7 @@ BLOCK.FENCE_GATE2 = {
 
 BLOCK.FENCE_GATE3 = {
     id: 184,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -1197,6 +1335,7 @@ BLOCK.FENCE_GATE3 = {
 
 BLOCK.FENCE_GATE4 = {
     id: 185,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -1208,6 +1347,7 @@ BLOCK.FENCE_GATE4 = {
 
 BLOCK.FENCE_GATE5 = {
     id: 186,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -1219,6 +1359,7 @@ BLOCK.FENCE_GATE5 = {
 
 BLOCK.FENCE_GATE6 = {
     id: 187,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
             return TRANS_TEX;
@@ -1230,6 +1371,7 @@ BLOCK.FENCE_GATE6 = {
 
 BLOCK.FENCE2 = {
     id: 188,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1241,6 +1383,7 @@ BLOCK.FENCE2 = {
 
 BLOCK.FENCE3 = {
     id: 189,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1252,6 +1395,7 @@ BLOCK.FENCE3 = {
 
 BLOCK.FENCE4 = {
     id: 190,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1263,6 +1407,7 @@ BLOCK.FENCE4 = {
 
 BLOCK.FENCE5 = {
     id: 191,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1274,6 +1419,7 @@ BLOCK.FENCE5 = {
 
 BLOCK.FENCE6 = {
     id: 192,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1285,6 +1431,7 @@ BLOCK.FENCE6 = {
 
 BLOCK.SPRUCE_DOOR = {
     id: 193,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1296,6 +1443,7 @@ BLOCK.SPRUCE_DOOR = {
 
 BLOCK.BIRCH_DOOR = {
     id: 194,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1307,6 +1455,7 @@ BLOCK.BIRCH_DOOR = {
 
 BLOCK.JUNGLE_DOOR = {
     id: 195,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1318,6 +1467,7 @@ BLOCK.JUNGLE_DOOR = {
 
 BLOCK.ACACIA_DOOR = {
     id: 196,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1329,6 +1479,7 @@ BLOCK.ACACIA_DOOR = {
 
 BLOCK.DARK_OAK_DOOR = {
     id: 197,
+    transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
             return TRANS_TEX;
@@ -1340,6 +1491,7 @@ BLOCK.DARK_OAK_DOOR = {
 
 BLOCK.END_STONE_BRICK = {
     id: 206,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [15, 10];
     }
@@ -1347,6 +1499,7 @@ BLOCK.END_STONE_BRICK = {
 
 BLOCK.ICE3 = {
     id: 212,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
         return [3, 4];
 	}
@@ -1354,6 +1507,7 @@ BLOCK.ICE3 = {
 
 BLOCK.CONCRETE = {
 	id: 251,
+    transparent: false,
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [6, 0]; }
 };
 
@@ -1384,7 +1538,7 @@ BLOCK.pushVertices = function( vertices, world, lightmap, x, y, z )
 	var bH = block.fluid && ( z == world.sz - 1 || !blocks[x][y][z+1].fluid ) ? 0.9 : 1.0;
 
 	// Top
-//	if ( z == world.sz - 1 || world.blocks[x][y][z+1].transparent || block.fluid )
+	if ( z == world.sz - 1 || world.blocks[x][y][z+1].transparent || block.fluid )
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.UP );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
@@ -1402,7 +1556,7 @@ BLOCK.pushVertices = function( vertices, world, lightmap, x, y, z )
 	}
 
 	// Bottom
-//	if ( z == 0 || world.blocks[x][y][z-1].transparent )
+	if ( z == 0 || world.blocks[x][y][z-1].transparent )
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.DOWN );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
@@ -1420,7 +1574,7 @@ BLOCK.pushVertices = function( vertices, world, lightmap, x, y, z )
 	}
 
 	// Front
-//	if ( y == 0 || world.blocks[x][y-1][z].transparent )
+	if ( y == 0 || world.blocks[x][y-1][z].transparent )
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.FORWARD );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
@@ -1438,7 +1592,7 @@ BLOCK.pushVertices = function( vertices, world, lightmap, x, y, z )
 	}
 
 	// Back
-//	if ( y == world.sy - 1 || world.blocks[x][y+1][z].transparent )
+	if ( y == world.sy - 1 || world.blocks[x][y+1][z].transparent )
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.BACK );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
@@ -1456,7 +1610,7 @@ BLOCK.pushVertices = function( vertices, world, lightmap, x, y, z )
 	}
 
 	// Left
-//	if ( x == 0 || world.blocks[x-1][y][z].transparent )
+	if ( x == 0 || world.blocks[x-1][y][z].transparent )
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.LEFT );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
@@ -1474,7 +1628,7 @@ BLOCK.pushVertices = function( vertices, world, lightmap, x, y, z )
 	}
 
 	// Right
-//	if ( x == world.sx - 1 || world.blocks[x+1][y][z].transparent )
+	if ( x == world.sx - 1 || world.blocks[x+1][y][z].transparent )
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.RIGHT );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];

@@ -229,8 +229,10 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 
 Player.prototype.doBlockAction = function( x, y, destroy )
 {
+    var radius = 6;
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
-	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - 4, bPos.y - 4, bPos.z - 4 ), new Vector( bPos.x + 4, bPos.y + 4, bPos.z + 4 ), x, y );
+	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - radius, bPos.y - radius, bPos.z - radius ),
+                                             new Vector( bPos.x + radius, bPos.y + radius, bPos.z + radius ), x, y );
 
 	if ( block != false ) {
 		var obj = this.client ? this.client : this.world;
