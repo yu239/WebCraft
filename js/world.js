@@ -41,12 +41,51 @@ function World( sx, sy, sz )
 
 World.prototype.createFlatWorld = function( height )
 {
-	this.spawnPoint = new Vector( this.sx / 2 + 0.5, this.sy / 2 + 0.5, height );
+	this.spawnPoint = new Vector( 0.5, 0.5, height );
 
 	for ( var x = 0; x < this.sx; x++ )
 		for ( var y = 0; y < this.sy; y++ )
 			for ( var z = 0; z < this.sz; z++ )
 				this.blocks[x][y][z] = z < height ? BLOCK.GRASS_DIRT : BLOCK.AIR;
+
+    this.ground_height = height;
+}
+
+World.prototype.createSchematic = function (path, is_url, callback) {
+    var world = this;
+    var set_schematic = function (array) {
+        var Z = array.shape[0];
+        var X = array.shape[1];
+        var Y = array.shape[2];
+        var D = array.shape[3];
+        if (D != 2) {
+            throw "Array last dimension error!";
+        }
+        // put the schematic starting at (this.sx / 2 - X / 2, this.sy / 2 - Y / 2, this.ground_height)
+        var x_offset = Math.floor(world.sx / 2 - X / 2);
+        var y_offset = Math.floor(world.sy / 2 - Y / 2);
+        var z_offset = world.ground_height;
+        for (var x = 0; x < X; x ++)
+            for (var y = 0; y < Y; y ++)
+                for (var z = 0; z < Z; z ++) {
+                    var idx = (z * (X * Y) + x * Y + y) * D;
+                    world.blocks[x + x_offset][y + y_offset][z + z_offset] =
+                        BLOCK.fromId(array.data[idx]);
+                }
+        // callback after loading finishes
+        if (callback != null) {
+            callback();
+        }
+    };
+
+    var npy_loader = NumpyLoader();
+    if (is_url) {
+        npy_loader.ajax(path, set_schematic);
+    } else {
+        npy_loader.open(path, set_schematic);
+    }
+
+    // (x,y,z) in WebCraft -> (z,x,y) in NPY -> (y,z,x) standard
 }
 
 // createFromString( str )

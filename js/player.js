@@ -28,7 +28,7 @@ Player.prototype.setWorld = function( world )
 	this.world.localPlayer = this;
 	this.pos = world.spawnPoint;
 	this.velocity = new Vector( 0, 0, 0 );
-	this.angles = [ 0, Math.PI, 0 ];
+	this.angles = [ 0, Math.PI / 4, 0 ];
 	this.yawStart = this.targetYaw = this.angles[1];
 	this.pitchStart = this.targetPitch = this.angles[0];
     this.pointerLocked = false;
@@ -318,8 +318,8 @@ Player.prototype.update = function()
 		}
 		if ( walkVelocity.length() > 0 ) {
 				walkVelocity = walkVelocity.normal();
-				velocity.x = walkVelocity.x * 4;
-				velocity.y = walkVelocity.y * 4;
+				velocity.x = walkVelocity.x * 8;
+				velocity.y = walkVelocity.y * 8;
 		} else {
 			velocity.x /= this.falling ? 1.01 : 1.5;
 			velocity.y /= this.falling ? 1.01 : 1.5;

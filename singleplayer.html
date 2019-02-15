@@ -210,11 +210,38 @@ body {
 	color: white;
 	font-size: 12px;
 }
+
+#schematic_upload_label {
+	position: absolute;
+	right: 20px;
+	top: 18px;
+
+	width: 150px;
+	height: 20px;
+    padding-left: 20px;
+
+	background: rgba( 0, 0, 0, 0.3 );
+
+	color: yellow;
+	font-family: minecraftia;
+	font-size: 12px;
+
+    border: 1px solid #ccc;
+    cursor: pointer;
+
+    opacity: 0.8;
+}
+
+#schematic_upload_label:hover {
+    opacity: 1.0;
+}
+
         </style>
 
 		<!-- Modules -->
 		<script src="js/glMatrix-1.2.min.js" type="text/javascript"></script>
 		<script src="js/blocks.js" type="text/javascript"></script>
+        <script src="js/numpy_loader.js" type="text/javascript"></script>
 		<script src="js/helpers.js" type="text/javascript"></script>
 		<script src="js/world.js" type="text/javascript"></script>
 		<script src="js/render.js" type="text/javascript"></script>
@@ -245,6 +272,11 @@ body {
           <img id="crosshair_img" src="media/crosshair.png" alt=""/>
         </div>
 
+        <label for="schematic" id="schematic_upload_label">
+          Upload schematic
+        </label>
+        <input type="file" id="schematic" style="display:none" onchange="onSchematicUploaded(this)"/>
+
         <!-- Instructions -->
         <div id="instructions">
           <table>
@@ -274,13 +306,14 @@ body {
             page.player_actions = document.getElementById("player_actions");
 
 			// Create a new flat world
-			var world = new World( 32, 32, 32 );
-			world.createFlatWorld( 6 );
+			var world = new World( 64, 64, 64 );
+		    world.createFlatWorld( 6 );
+//            world.createSchematic("data/schematic.npy", true, null);
 
 			// Set up renderer
 			var render = new Renderer( "renderSurface" );
-			render.setWorld( world, 8 );
-			render.setPerspective( 60, 0.01, 200 );
+			render.setWorld( world, 32 );
+		    render.setPerspective( 60, 0.01, 200 );
 
 			// Create physics simulator
 			var physics = new Physics();
@@ -330,6 +363,20 @@ body {
 			    page.chatboxText.innerHTML += "&lt;<span style=\"color: #0a0\">Label:</span>&gt" + msg + "<br />";
 				chatInput.value = "";
 			}
+
+            function onSchematicLoad() {
+//                page.file_input_label.innerHTML = "";
+            }
+
+            function onSchematicUploaded(fileInput) {
+                var file = fileInput.files[0];
+                console.log(fileInput.value);
+//                page.file_input_label.innerHTML = "";
+                world.createSchematic(file, false,
+                                      // callback to update rendering
+                                      function () { render.setWorld(world, 32); });
+                fileInput.value = '';
+            }
 
             var render_interval = 0.033; // (seconds)
 			// Render loop

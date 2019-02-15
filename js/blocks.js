@@ -43,9 +43,9 @@ BLOCK.GRASS_DIRT = {
 	id: 2,
     transparent: false,
 	texture: function(world, lightmap, lit, x, y, z, dir){
-		if ( dir == DIRECTION.UP && lit )
+		if ( dir == DIRECTION.UP)
 			return [12, 12];
-		else if ( dir == DIRECTION.DOWN || !lit )
+		else if ( dir == DIRECTION.DOWN)
 			return [2, 0];
 		else
 			return [3, 0];
@@ -784,7 +784,7 @@ BLOCK.STAINED_GLASS = {
     id: 95,
     transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        return [3, 4];
+        return [1, 3];
     }
 };
 
@@ -1511,6 +1511,13 @@ BLOCK.CONCRETE = {
 	texture: function( world, lightmap, lit, x, y, z, dir ) { return [6, 0]; }
 };
 
+// A purple dummy block
+BLOCK.DUMMY = {
+    id: -1,
+    transparent: false,
+    texture: function(world, lightmap, lit, x, y, z, dir) { return [9, 9]; }
+};
+
 //////////////////////////////////
 
 // fromId( id )
@@ -1522,7 +1529,7 @@ BLOCK.fromId = function( id )
 	for ( var mat in BLOCK )
 		if ( typeof( BLOCK[mat] ) == "object" && BLOCK[mat].id == id )
 			return BLOCK[mat];
-	return null;
+	return BLOCK.DUMMY;
 }
 
 // pushVertices( vertices, world, lightmap, x, y, z )
@@ -1535,10 +1542,14 @@ BLOCK.pushVertices = function( vertices, world, lightmap, x, y, z )
 	var blocks = world.blocks;
 	var blockLit = z >= lightmap[x][y];
 	var block = blocks[x][y][z];
-	var bH = block.fluid && ( z == world.sz - 1 || !blocks[x][y][z+1].fluid ) ? 0.9 : 1.0;
+	var bH = 1.0;
+
+    if (block == null) {
+        console.log(x + " " + y + " " + z);
+    }
 
 	// Top
-	if ( z == world.sz - 1 || world.blocks[x][y][z+1].transparent || block.fluid )
+	if ( z == world.sz - 1 || world.blocks[x][y][z+1].transparent )
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.UP );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
