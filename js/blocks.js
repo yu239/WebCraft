@@ -45,7 +45,7 @@ BLOCK.GRASS_DIRT = {
 	texture: function(world, lightmap, lit, x, y, z, dir){
 		if ( dir == DIRECTION.UP)
 			return [12, 12];
-		else if ( dir == DIRECTION.DOWN)
+		else if ( dir == DIRECTION.DOWN || !lit)
 			return [2, 0];
 		else
 			return [3, 0];
