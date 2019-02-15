@@ -24,6 +24,7 @@ BLOCK = {};
 // selflit (always false for annotation purpose),
 // gravity (always false for annotation purpose),
 // fluid (always false for annotation purpose),
+// planting
 // texture
 
 BLOCK.AIR = {
@@ -79,12 +80,9 @@ BLOCK.PLANK = {
 BLOCK.OAK_SAPLING = {
     id: 6,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-		    return TRANS_TEX;
-        } else {
-            return [15, 0];
-        }
+        return [15, 0];
 	}
 };
 
@@ -263,24 +261,18 @@ BLOCK.COBWEB = {
 BLOCK.GRASS = {
     id: 31,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [11, 5];
-        }
+        return [11, 5];
     }
 };
 
 BLOCK.DEAD_BUSH = {
     id: 32,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [7, 3];
-        }
+        return [7, 3];
     }
 };
 
@@ -309,60 +301,45 @@ BLOCK.WOOL = {
 BLOCK.DANDELION = {
     id: 36,
     transparent: true,
+    planting: true,
     texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [13, 0];
-        }
+        return [13, 0];
     }
 };
 
 BLOCK.POPPY = {
     id: 37,
     transparent: true,
+    planting: true,
     texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [12, 0];
-        }
+        return [12, 0];
     }
 };
 
 BLOCK.TULIP = {
     id: 38,
     transparent: true,
+    planting: true,
     texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [12, 0];
-        }
+        return [12, 0];
     }
 };
 
 BLOCK.BROWN_MUSHROOM = {
     id: 39,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [13, 1];
-        }
+        return [13, 1];
     }
 };
 
 BLOCK.RED_MUSHROOM = {
     id: 40,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [12, 1];
-        }
+        return [12, 1];
     }
 };
 
@@ -445,12 +422,9 @@ BLOCK.OBSIDIAN = {
 BLOCK.TORCH = {
     id: 50,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [0, 5];
-        }
+        return [0, 5];
     }
 };
 
@@ -503,12 +477,9 @@ BLOCK.CRAFTING_TABLE = {
 BLOCK.WHEAT = {
     id: 59,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [15, 5];
-        }
+        return [15, 5];
     }
 };
 
@@ -549,12 +520,9 @@ BLOCK.BURNING_FURNACE = {
 BLOCK.STANDING_SIGN = {
     id: 63,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [8, 11];
-        }
+        return [8, 11];
     }
 };
 
@@ -637,24 +605,18 @@ BLOCK.GLOWING_REDSTONE_ORE = {
 BLOCK.REDSTONE_TORCH_ON = {
     id: 75,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [3, 6];
-        }
+        return [3, 6];
 	}
 };
 
 BLOCK.REDSTONE_TORCH_OFF = {
     id: 76,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [3, 7];
-        }
+        return [3, 7];
 	}
 };
 
@@ -853,24 +815,18 @@ BLOCK.MELON = {
 BLOCK.PUMPKIN_STEM = {
     id: 104,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [15, 6];
-        }
+        return [15, 6];
     }
 };
 
 BLOCK.MELON_STEM = {
     id: 105,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [15, 6];
-        }
+        return [15, 6];
     }
 };
 
@@ -914,7 +870,7 @@ BLOCK.MYCELIUM = {
     texture: function(world, lightmap, lit, x, y, z, dir) {
         if (dir == DIRECTION.UP) {
             return [14, 4];
-        } else if (dir == DIRECTION.DOWN) {
+        } else if (dir == DIRECTION.DOWN || !lit) {
             return [2, 0];
         } else {
             return [13, 4];
@@ -953,12 +909,9 @@ BLOCK.NETHER_STAIRS = {
 BLOCK.NETHER_WART = {
     id: 115,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [4, 14];
-        }
+        return [4, 14];
     }
 };
 
@@ -979,14 +932,9 @@ BLOCK.ENCHANTING_TABLE = {
 BLOCK.BREWING_STAND = {
     id: 117,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP) {
-            return TRANS_TEX;
-        } else if (dir == DIRECTION.DOWN) {
-            return [12, 9];
-        } else {
-            return [13, 9];
-        }
+        return [13, 9];
     }
 };
 
@@ -1105,24 +1053,18 @@ BLOCK.COBBLESTONE_WALL = {
 BLOCK.CARROTS = {
     id: 141,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [11, 5];
-        }
+        return [11, 5];
     }
 };
 
 BLOCK.POTATOS = {
     id: 142,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP || dir == DIRECTION.DOWN) {
-            return TRANS_TEX;
-        } else {
-            return [11, 5];
-        }
+        return [11, 5];
     }
 };
 
@@ -1268,12 +1210,9 @@ BLOCK.ICE2 = {
 BLOCK.FLOWER = {
     id:175,
     transparent: true,
+    planting: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.DOWN || dir == DIRECTION.UP) {
-            return TRANS_TEX;
-        } else {
-            return [12, 0];
-        }
+        return [12, 0];
 	}
 };
 
@@ -1529,6 +1468,8 @@ BLOCK.fromId = function( id )
 	for ( var mat in BLOCK )
 		if ( typeof( BLOCK[mat] ) == "object" && BLOCK[mat].id == id )
 			return BLOCK[mat];
+    // output ids not handled
+    console.log("Warning: id missing in BLOCK " + id);
 	return BLOCK.DUMMY;
 }
 
@@ -1542,119 +1483,153 @@ BLOCK.pushVertices = function( vertices, world, lightmap, x, y, z )
 	var blocks = world.blocks;
 	var blockLit = z >= lightmap[x][y];
 	var block = blocks[x][y][z];
-	var bH = 1.0;
 
-    if (block == null) {
-        console.log(x + " " + y + " " + z);
-    }
-
-	// Top
-	if ( z == world.sz - 1 || world.blocks[x][y][z+1].transparent )
-	{
-		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.UP );
+    if (block.planting) {
+        var c = block.texture(world, lightmap, blockLit, x, y, z, null);
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 
 		var lightMultiplier = z >= lightmap[x][y] ? 1.0 : 0.6;
-//		if ( block.selflit ) lightMultiplier = 1.0;
 
-		pushQuad(
-			vertices,
-			[ x, y, z + bH, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y, z + bH, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y + 1.0, z + bH, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x, y + 1.0, z + bH, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
-		);
-	}
+        pushQuad(
+            vertices,
+            [x + 0.5, y, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 0.5, y + 1.0, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 0.5, y + 1.0, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 0.5, y, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0]
+        );
 
-	// Bottom
-	if ( z == 0 || world.blocks[x][y][z-1].transparent )
-	{
-		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.DOWN );
-        c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
+        pushQuad(
+            vertices,
+            [x, y + 0.5, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 1.0, y + 0.5, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 1.0, y + 0.5, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x, y + 0.5, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0]
+        );
 
-        //		var lightMultiplier = block.selflit ? 1.0 : 0.6;
-        var lightMultiplier = 0.6;
+        pushQuad(
+            vertices,
+            [x + 0.5, y + 1.0, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 0.5, y, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 0.5, y, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 0.5, y + 1.0, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0]
+        );
 
-		pushQuad(
-			vertices,
-			[ x, y + 1.0, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y + 1.0, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y, z, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x, y, z, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
-		);
-	}
+        pushQuad(
+            vertices,
+            [x + 1.0, y + 0.5, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x, y + 0.5, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x, y + 0.5, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0],
+            [x + 1.0, y + 0.5, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0, 1.0]
+        );
+    } else {
+	    // Top
+	    if ( z == world.sz - 1 || world.blocks[x][y][z+1].transparent )
+	    {
+		    var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.UP );
+            c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 
-	// Front
-	if ( y == 0 || world.blocks[x][y-1][z].transparent )
-	{
-		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.FORWARD );
-        c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
+		    var lightMultiplier = z >= lightmap[x][y] ? 1.0 : 0.6;
+            //		if ( block.selflit ) lightMultiplier = 1.0;
 
-		var lightMultiplier = ( y == 0 || z >= lightmap[x][y-1] ) ? 1.0 : 0.6;
-//		if ( block.selflit ) lightMultiplier = 1.0;
+		    pushQuad(
+			    vertices,
+			    [ x, y, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y + 1.0, z + 1.0, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x, y + 1.0, z + 1.0, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
+		    );
+	    }
 
-		pushQuad(
-			vertices,
-			[ x, y, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y, z + bH, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x, y, z + bH, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
-		);
-	}
+	    // Bottom
+	    if ( z == 0 || world.blocks[x][y][z-1].transparent )
+	    {
+		    var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.DOWN );
+            c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 
-	// Back
-	if ( y == world.sy - 1 || world.blocks[x][y+1][z].transparent )
-	{
-		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.BACK );
-        c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
+            //		var lightMultiplier = block.selflit ? 1.0 : 0.6;
+            var lightMultiplier = 0.6;
 
-        //		var lightMultiplier = block.selflit ? 1.0 : 0.6;
-        var lightMultiplier = 0.6;
+		    pushQuad(
+			    vertices,
+			    [ x, y + 1.0, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y + 1.0, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y, z, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x, y, z, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
+		    );
+	    }
 
-		pushQuad(
-			vertices,
-			[ x, y + 1.0, z + bH, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y + 1.0, z + bH, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y + 1.0, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x, y + 1.0, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
-		);
-	}
+	    // Front
+	    if ( y == 0 || world.blocks[x][y-1][z].transparent )
+	    {
+		    var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.FORWARD );
+            c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 
-	// Left
-	if ( x == 0 || world.blocks[x-1][y][z].transparent )
-	{
-		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.LEFT );
-        c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
+		    var lightMultiplier = ( y == 0 || z >= lightmap[x][y-1] ) ? 1.0 : 0.6;
+            //		if ( block.selflit ) lightMultiplier = 1.0;
 
-        //		var lightMultiplier = block.selflit ? 1.0 : 0.6;
-        var lightMultiplier = 0.6;
+		    pushQuad(
+			    vertices,
+			    [ x, y, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x, y, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
+		    );
+	    }
 
-		pushQuad(
-			vertices,
-			[ x, y, z + bH, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x, y + 1.0, z + bH, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x, y + 1.0, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x, y, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
-		);
-	}
+	    // Back
+	    if ( y == world.sy - 1 || world.blocks[x][y+1][z].transparent )
+	    {
+		    var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.BACK );
+            c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 
-	// Right
-	if ( x == world.sx - 1 || world.blocks[x+1][y][z].transparent )
-	{
-		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.RIGHT );
-        c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
+            //		var lightMultiplier = block.selflit ? 1.0 : 0.6;
+            var lightMultiplier = 0.6;
 
-		var lightMultiplier = ( x == world.sx - 1 || z >= lightmap[x+1][y] ) ? 1.0 : 0.6;
-//		if ( block.selflit ) lightMultiplier = 1.0;
+		    pushQuad(
+			    vertices,
+			    [ x, y + 1.0, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y + 1.0, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y + 1.0, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x, y + 1.0, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
+		    );
+	    }
 
-		pushQuad(
-			vertices,
-			[ x + 1.0, y, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y + 1.0, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y + 1.0, z + bH, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
-			[ x + 1.0, y, z + bH, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
-		);
-	}
+	    // Left
+	    if ( x == 0 || world.blocks[x-1][y][z].transparent )
+	    {
+		    var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.LEFT );
+            c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
+
+            //		var lightMultiplier = block.selflit ? 1.0 : 0.6;
+            var lightMultiplier = 0.6;
+
+		    pushQuad(
+			    vertices,
+			    [ x, y, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x, y + 1.0, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x, y + 1.0, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x, y, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
+		    );
+	    }
+
+	    // Right
+	    if ( x == world.sx - 1 || world.blocks[x+1][y][z].transparent )
+	    {
+		    var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.RIGHT );
+            c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
+
+		    var lightMultiplier = ( x == world.sx - 1 || z >= lightmap[x+1][y] ) ? 1.0 : 0.6;
+            //		if ( block.selflit ) lightMultiplier = 1.0;
+
+		    pushQuad(
+			    vertices,
+			    [ x + 1.0, y, z, c[0], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y + 1.0, z, c[2], c[3], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y + 1.0, z + 1.0, c[2], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ],
+			    [ x + 1.0, y, z + 1.0, c[0], c[1], lightMultiplier, lightMultiplier, lightMultiplier, 1.0 ]
+		    );
+	    }
+    }
 }
 
 // pushPickingVertices( vertices, x, y, z )
