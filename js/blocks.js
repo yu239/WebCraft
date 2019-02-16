@@ -1599,7 +1599,7 @@ function push_fence(vertices, world, lightmap, x, y, z) {
     c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 	var lm = z >= lightmap[x][y] ? 1.0 : 0.6;
     var dirs = check_xy_neighbor(world, x, y, z);
-    if (dirs[0] != dirs[1]) {
+    if (dirs[0] * dirs[1] == 0 && dirs[0] + dirs[1] > 0) {
         push_plane(vertices, x, y, z, c, lm, dirs[0] > dirs[1]);
     } else {
         push_plant(vertices, world, lightmap, x, y, z);
