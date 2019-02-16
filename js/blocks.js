@@ -368,13 +368,7 @@ BLOCK.SLAB = {
     id: 44,
     transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP) {
-            return TRANS_TEX;
-        } else if (dir == DIRECTION.DOWN) {
-            return [6, 0];
-        } else {
-            return [7, 12];
-        }
+        return [6, 0];
     }
 };
 
@@ -970,13 +964,7 @@ BLOCK.WOOD_SLAB = {
     id: 126,
     transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP) {
-            return TRANS_TEX;
-        } else if (dir == DIRECTION.DOWN) {
-            return [4, 0];
-        } else {
-            return [8, 12];
-        }
+        return [4, 0];
     }
 };
 
@@ -1223,13 +1211,7 @@ BLOCK.RED_SANDSTONE_SLAB = {
     id: 182,
     transparent: true,
 	texture: function( world, lightmap, lit, x, y, z, dir ) {
-        if (dir == DIRECTION.UP) {
-            return TRANS_TEX;
-        } else if (dir == DIRECTION.DOWN) {
-            return [0, 12];
-        } else {
-            return [0, 15];
-        }
+        return [0, 12];
     }
 };
 
