@@ -19,12 +19,15 @@ function World( sx, sy, sz )
 {
 	// Initialise world array
 	this.blocks = new Array( sx );
+	this.blocks_lm = new Array( sx );
 	for ( var x = 0; x < sx; x++ )
 	{
 		this.blocks[x] = new Array( sy );
+		this.blocks_lm[x] = new Array( sy );
 		for ( var y = 0; y < sy; y++ )
 		{
 			this.blocks[x][y] = new Array( sz );
+			this.blocks_lm[x][y] = new Array( sz );
 		}
 	}
 	this.sx = sx;
@@ -32,6 +35,11 @@ function World( sx, sy, sz )
 	this.sz = sz;
 
 	this.players = {};
+}
+
+
+World.prototype.withinBoundary = function(x, y, z) {
+    return x >= 0 && x < this.sx && y >= 0 && y < this.sy && z >= 0 && z < this.sz;
 }
 
 // createFlatWorld()
@@ -45,11 +53,23 @@ World.prototype.createFlatWorld = function( height )
 
 	for ( var x = 0; x < this.sx; x++ )
 		for ( var y = 0; y < this.sy; y++ )
-			for ( var z = 0; z < this.sz; z++ )
-				this.blocks[x][y][z] = z < height ? BLOCK.GRASS_DIRT : BLOCK.AIR;
+			for ( var z = 0; z < this.sz; z++ ) {
+                if (z < height) {
+                    this.setBlock(x, y, z, BLOCK.GRASS_DIRT);
+                } else {
+                    this.setBlock(x, y, z, BLOCK.AIR);
+                }
+            }
 
     this.ground_height = height;
 }
+
+
+// check if a block is a ground block
+World.prototype.groundBlock = function(block) {
+    return block.z < this.ground_height;
+}
+
 
 World.prototype.createSchematic = function (path, is_url, callback) {
     var world = this;
@@ -124,9 +144,18 @@ World.prototype.getBlock = function( x, y, z )
 
 // setBlock( x, y, z )
 
-World.prototype.setBlock = function( x, y, z, type )
-{
+World.prototype.setBlock = function( x, y, z, type ) {
+    if (!this.withinBoundary(x, y, z))
+        return;
 	this.blocks[x][y][z] = type;
+    this.blocks_lm[x][y][z] = 1;
+	if ( this.renderer != null ) this.renderer.onBlockChanged( x, y, z );
+}
+
+World.prototype.setBlockLM = function( x, y, z, lm) {
+    if (!this.withinBoundary(x, y, z))
+        return;
+    this.blocks_lm[x][y][z] = lm;
 	if ( this.renderer != null ) this.renderer.onBlockChanged( x, y, z );
 }
 

@@ -317,11 +317,11 @@ body {
 
 			// Create physics simulator
 			var physics = new Physics();
-			physics.setWorld( world );
+		    physics.setWorld(world);
 
 			// Create new local player
 			var player = new Player();
-			player.setWorld( world );
+		    player.setWorld(world, "annotation");
 			player.setInputCanvas( "renderSurface" );
   		    player.setMaterialSelector( "materialSelector" );
 

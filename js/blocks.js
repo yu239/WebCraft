@@ -1403,14 +1403,12 @@ BLOCK.fromId = function( id )
 function push_cube(vertices, world, lightmap, x, y, z) {
     var block = world.blocks[x][y][z];
 	var blockLit = z >= lightmap[x][y];
+    var lm = world.blocks_lm[x][y][z];
 	// Top
 	if ( z == world.sz - 1 || world.blocks[x][y][z+1].transparent )
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.UP );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
-
-		var lm = z >= lightmap[x][y] ? 1.0 : 0.6;
-        //		if ( block.selflit ) lm = 1.0;
 
 		pushQuad(
 			vertices,
@@ -1427,9 +1425,6 @@ function push_cube(vertices, world, lightmap, x, y, z) {
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.DOWN );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 
-        //		var lm = block.selflit ? 1.0 : 0.6;
-        var lm = 0.6;
-
 		pushQuad(
 			vertices,
 			[ x, y + 1.0, z, c[0], c[3], lm, lm, lm, 1.0 ],
@@ -1444,9 +1439,6 @@ function push_cube(vertices, world, lightmap, x, y, z) {
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.FORWARD );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
-
-		var lm = ( y == 0 || z >= lightmap[x][y-1] ) ? 1.0 : 0.6;
-        //		if ( block.selflit ) lm = 1.0;
 
 		pushQuad(
 			vertices,
@@ -1463,9 +1455,6 @@ function push_cube(vertices, world, lightmap, x, y, z) {
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.BACK );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 
-        //		var lm = block.selflit ? 1.0 : 0.6;
-        var lm = 0.6;
-
 		pushQuad(
 			vertices,
 			[ x, y + 1.0, z + 1.0, c[2], c[1], lm, lm, lm, 1.0 ],
@@ -1480,9 +1469,6 @@ function push_cube(vertices, world, lightmap, x, y, z) {
 	{
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.LEFT );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
-
-        //		var lm = block.selflit ? 1.0 : 0.6;
-        var lm = 0.6;
 
 		pushQuad(
 			vertices,
@@ -1499,9 +1485,6 @@ function push_cube(vertices, world, lightmap, x, y, z) {
 		var c = block.texture( world, lightmap, blockLit, x, y, z, DIRECTION.RIGHT );
         c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
 
-		var lm = ( x == world.sx - 1 || z >= lightmap[x+1][y] ) ? 1.0 : 0.6;
-        //		if ( block.selflit ) lm = 1.0;
-
 		pushQuad(
 			vertices,
 			[ x + 1.0, y, z, c[0], c[3], lm, lm, lm, 1.0 ],
@@ -1515,29 +1498,29 @@ function push_cube(vertices, world, lightmap, x, y, z) {
 function push_plane(vertices, x, y, z, c, lm, x_dir) {
     if (x_dir) {
         pushQuad(vertices,
-                 [x, y + 0.5, z + 1.0, c[0], c[1], lm, lm, lm, 1, 1],
-                 [x + 1, y + 0.5, z + 1, c[2], c[1], lm, lm, lm, 1, 1],
-                 [x + 1, y + 0.5, z, c[2], c[3], lm, lm, lm, 1, 1],
-                 [x, y + 0.5, z, c[0], c[3], lm, lm, lm, 1, 1]);
+                 [x, y + 0.5, z + 1.0, c[0], c[1], lm, lm, lm, 1],
+                 [x + 1, y + 0.5, z + 1, c[2], c[1], lm, lm, lm, 1],
+                 [x + 1, y + 0.5, z, c[2], c[3], lm, lm, lm, 1],
+                 [x, y + 0.5, z, c[0], c[3], lm, lm, lm, 1]);
         pushQuad(vertices,
-                 [x + 1, y + 0.5, z + 1.0, c[2], c[1], lm, lm, lm, 1, 1],
-                 [x, y + 0.5, z + 1, c[0], c[1], lm, lm, lm, 1, 1],
-                 [x, y + 0.5, z, c[0], c[3], lm, lm, lm, 1, 1],
-                 [x + 1, y + 0.5, z, c[2], c[3], lm, lm, lm, 1, 1]);
+                 [x + 1, y + 0.5, z + 1.0, c[2], c[1], lm, lm, lm, 1],
+                 [x, y + 0.5, z + 1, c[0], c[1], lm, lm, lm, 1],
+                 [x, y + 0.5, z, c[0], c[3], lm, lm, lm, 1],
+                 [x + 1, y + 0.5, z, c[2], c[3], lm, lm, lm, 1]);
     } else {
         pushQuad(
             vertices,
-            [x + 0.5, y, z + 1.0, c[0], c[1], lm, lm, lm, 1.0, 1.0],
-            [x + 0.5, y + 1.0, z + 1.0, c[2], c[1], lm, lm, lm, 1.0, 1.0],
-            [x + 0.5, y + 1.0, z, c[2], c[3], lm, lm, lm, 1.0, 1.0],
-            [x + 0.5, y, z, c[0], c[3], lm, lm, lm, 1.0, 1.0]
+            [x + 0.5, y, z + 1.0, c[0], c[1], lm, lm, lm, 1],
+            [x + 0.5, y + 1.0, z + 1.0, c[2], c[1], lm, lm, lm, 1],
+            [x + 0.5, y + 1.0, z, c[2], c[3], lm, lm, lm, 1],
+            [x + 0.5, y, z, c[0], c[3], lm, lm, lm, 1]
         );
         pushQuad(
             vertices,
-            [x + 0.5, y + 1.0, z + 1.0, c[2], c[1], lm, lm, lm, 1.0, 1.0],
-            [x + 0.5, y, z + 1.0, c[0], c[1], lm, lm, lm, 1.0, 1.0],
-            [x + 0.5, y, z, c[0], c[3], lm, lm, lm, 1.0, 1.0],
-            [x + 0.5, y + 1.0, z, c[2], c[3], lm, lm, lm, 1.0, 1.0]
+            [x + 0.5, y + 1.0, z + 1.0, c[2], c[1], lm, lm, lm, 1],
+            [x + 0.5, y, z + 1.0, c[0], c[1], lm, lm, lm, 1],
+            [x + 0.5, y, z, c[0], c[3], lm, lm, lm, 1],
+            [x + 0.5, y + 1.0, z, c[2], c[3], lm, lm, lm, 1]
         );
     }
 }
@@ -1548,7 +1531,8 @@ function push_plant(vertices, world, lightmap, x, y, z) {
 	var blockLit = z >= lightmap[x][y];
     var c = block.texture(world, lightmap, blockLit, x, y, z, null);
     c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
-	var lm = z >= lightmap[x][y] ? 1.0 : 0.6;
+    //	var lm = z >= lightmap[x][y] ? 1.0 : 0.6;
+    var lm = world.blocks_lm[x][y][z];
 
     push_plane(vertices, x, y, z, c, lm, true);
     push_plane(vertices, x, y, z, c, lm, false);
@@ -1587,7 +1571,8 @@ function push_pane(vertices, world, lightmap, x, y, z) {
 	var blockLit = z >= lightmap[x][y];
     var c = block.texture(world, lightmap, blockLit, x, y, z, null);
     c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
-	var lm = z >= lightmap[x][y] ? 1.0 : 0.6;
+    //	var lm = z >= lightmap[x][y] ? 1.0 : 0.6;
+    var lm = world.blocks_lm[x][y][z];
     var dirs = check_xy_neighbor(world, x, y, z);
     push_plane(vertices, x, y, z, c, lm, dirs[0] >= dirs[1]);
 }
@@ -1597,7 +1582,8 @@ function push_fence(vertices, world, lightmap, x, y, z) {
 	var blockLit = z >= lightmap[x][y];
     var c = block.texture(world, lightmap, blockLit, x, y, z, null);
     c = [c[0]/16, c[1]/16, (c[0] + 1)/16, (c[1] + 1)/16];
-	var lm = z >= lightmap[x][y] ? 1.0 : 0.6;
+    //	var lm = z >= lightmap[x][y] ? 1.0 : 0.6;
+    var lm = world.blocks_lm[x][y][z];
     var dirs = check_xy_neighbor(world, x, y, z);
     if (dirs[0] * dirs[1] == 0 && dirs[0] + dirs[1] > 0) {
         push_plane(vertices, x, y, z, c, lm, dirs[0] > dirs[1]);

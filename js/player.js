@@ -22,7 +22,7 @@ function Player()
 //
 // Assign the local player to a world.
 
-Player.prototype.setWorld = function( world )
+Player.prototype.setWorld = function( world, mode)
 {
 	this.world = world;
 	this.world.localPlayer = this;
@@ -38,6 +38,7 @@ Player.prototype.setWorld = function( world )
 	this.buildMaterial = BLOCK.GRASS_DIRT;
 	this.eventHandlers = {};
     this.actions = []; // action history since beginning
+    this.mode = mode;
 }
 
 // setClient( client )
@@ -228,6 +229,16 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 }
 
 
+Player.prototype.actionExists = function(x, y, z, id) {
+    for (var i = 0; i < this.actions.length; i ++) {
+        var a = this.actions[i];
+        if (a[0][0] == x && a[0][1] == y && a[0][2] == z && a[1] == id)
+            return true;
+    }
+    return false;
+}
+
+
 // doBlockAction( x, y )
 //
 // Called to perform an action based on the player's block selection and input.
@@ -242,14 +253,26 @@ Player.prototype.doBlockAction = function( x, y, destroy )
 	if ( block != false ) {
 		var obj = this.client ? this.client : this.world;
 
+        // prevent the player destroying ground blocks for annotation
 		if (destroy) {
-			obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
-            this.actions.push([[block.x, block.y, block.z], BLOCK.AIR.id]);
-        }
-		else {
-			obj.setBlock( block.x + block.n.x, block.y + block.n.y, block.z + block.n.z, this.buildMaterial );
-            this.actions.push([[block.x + block.n.x, block.y + block.n.y, block.z + block.n.z],
-                              this.buildMaterial.id]);
+            if (this.mode != "annotation" || !this.world.groundBlock(block)) {
+                if (this.mode != "annotation")
+                    obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
+                else
+                    obj.setBlockLM(block.x, block.y, block.z, 0.3);
+                if (this.mode != "annotation"
+                    || !this.actionExists(block.x, block.y, block.z, BLOCK.AIR.id)) {
+                    this.actions.push([[block.x, block.y, block.z], BLOCK.AIR.id]);
+                }
+            } // else do nothing
+        } else {
+            var bx = block.x + block.n.x;
+            var by = block.y + block.n.y;
+            var bz = block.z + block.n.z;
+			obj.setBlock( bx, by, bz, this.buildMaterial );
+            if (this.mode != "annotation" || !this.actionExists(bx, by, bz, this.buildMaterial.id)) {
+                this.actions.push([[bx, by, bz], this.buildMaterial.id]);
+            }
         }
 	}
 }
