@@ -146,17 +146,19 @@ World.prototype.getBlock = function( x, y, z )
 
 World.prototype.setBlock = function( x, y, z, type ) {
     if (!this.withinBoundary(x, y, z))
-        return;
+        return false;
 	this.blocks[x][y][z] = type;
     this.blocks_lm[x][y][z] = 1;
 	if ( this.renderer != null ) this.renderer.onBlockChanged( x, y, z );
+    return true;
 }
 
 World.prototype.setBlockLM = function( x, y, z, lm) {
     if (!this.withinBoundary(x, y, z))
-        return;
+        return false;
     this.blocks_lm[x][y][z] = lm;
 	if ( this.renderer != null ) this.renderer.onBlockChanged( x, y, z );
+    return true;
 }
 
 // toNetworkString()

@@ -288,6 +288,7 @@ body {
             <tr><td>q </td> <td>- Down</td></tr>
             <tr><td>e </td> <td>- Inventory</td></tr>
             <tr><td>t </td> <td>- Chat</td></tr>
+            <tr><td>r </td> <td>- Undo last action</td></tr>
             <tr><td>esc </td> <td>- Cursor</td></tr>
             <tr>Try refreshing the page if the world is black.</tr>
           </table>
@@ -364,14 +365,9 @@ body {
 				chatInput.value = "";
 			}
 
-            function onSchematicLoad() {
-//                page.file_input_label.innerHTML = "";
-            }
-
             function onSchematicUploaded(fileInput) {
                 var file = fileInput.files[0];
                 console.log(fileInput.value);
-//                page.file_input_label.innerHTML = "";
                 world.createSchematic(file, false,
                                       // callback to update rendering
                                       function () { render.setWorld(world, 32); });

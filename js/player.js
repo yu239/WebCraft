@@ -191,6 +191,9 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 	if (!down && key == "t" && this.eventHandlers["openChat"]) {
         this.eventHandlers.openChat();
     }
+	if (!down && key == "r") {
+        this.undoAction();
+    }
     if (!down && key == "e") {
         if (!this.inventory_open && this.eventHandlers["openInventory"]) {
             this.inventory_open = true;
@@ -207,7 +210,7 @@ Player.prototype.actionsToString = function () {
     for (var i = 0; i < this.actions.length; i ++) {
         var block = this.actions[i][0];
         var id = this.actions[i][1];
-        var change = "[(" + block[0] + " " + block[1] + " " + block[2] + "): " + id + "]";
+        var change = "(" + block[0] + " " + block[1] + " " + block[2] + "): " + id[0] + "->" + id[1];
         ret += change + ", ";
     }
     return ret;
@@ -219,7 +222,7 @@ Player.prototype.actionsToString = function () {
 Player.prototype.onMouseEvent = function( x, y, type, rmb )
 {
 	if ( type == MOUSE.UP && this.pointerLocked ) {
-		this.doBlockAction( this.canvas.width / 2, this.canvas.height / 2, !rmb );
+		this.doBlockActionXY( this.canvas.width / 2, this.canvas.height / 2, !rmb );
 		this.canvas.style.cursor = "default";
         // update the action history
         if (this.eventHandlers["playerActions"]) {
@@ -229,52 +232,79 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 }
 
 
-Player.prototype.actionExists = function(x, y, z, id) {
+Player.prototype.actionExists = function(x, y, z, prev_id, cur_id) {
     for (var i = 0; i < this.actions.length; i ++) {
         var a = this.actions[i];
-        if (a[0][0] == x && a[0][1] == y && a[0][2] == z && a[1] == id)
+        if (a[0][0] == x && a[0][1] == y && a[0][2] == z
+            && a[1][0] == prev_id && a[1][1] == cur_id)
             return true;
     }
     return false;
 }
 
 
-// doBlockAction( x, y )
+// doBlockActionXY( x, y )
 //
 // Called to perform an action based on the player's block selection and input.
 
-Player.prototype.doBlockAction = function( x, y, destroy )
-{
+Player.prototype.doBlockActionXY = function( x, y, destroy ) {
     var radius = 5;
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
 	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - radius, bPos.y - radius, bPos.z - radius ),
                                              new Vector( bPos.x + radius, bPos.y + radius, bPos.z + radius ), x, y );
+    this.doBlockAction(block, destroy, this.buildMaterial.id, true);
+}
 
+
+Player.prototype.doBlockAction = function( block, destroy, material_id, record_action) {
 	if ( block != false ) {
 		var obj = this.client ? this.client : this.world;
-
+        var bx = block.x;
+        var by = block.y;
+        var bz = block.z;
         // prevent the player destroying ground blocks for annotation
 		if (destroy) {
             if (this.mode != "annotation" || !this.world.groundBlock(block)) {
-                if (this.mode != "annotation")
-                    obj.setBlock( block.x, block.y, block.z, BLOCK.AIR );
-                else
-                    obj.setBlockLM(block.x, block.y, block.z, 0.3);
                 if (this.mode != "annotation"
-                    || !this.actionExists(block.x, block.y, block.z, BLOCK.AIR.id)) {
-                    this.actions.push([[block.x, block.y, block.z], BLOCK.AIR.id]);
+                    || !this.actionExists(bx, by, bz,
+                                          this.world.blocks[bx][by][bz].id, BLOCK.AIR.id)) {
+                    if (record_action) {
+                        this.actions.push([[bx, by, bz],
+                                           [this.world.blocks[bx][by][bz].id, BLOCK.AIR.id]]);
+                    }
                 }
+                if (this.mode != "annotation")
+                    obj.setBlock(bx, by, bz, BLOCK.AIR);
+                else
+                    obj.setBlockLM(bx, by, bz, 0.3);
             } // else do nothing
         } else {
-            var bx = block.x + block.n.x;
-            var by = block.y + block.n.y;
-            var bz = block.z + block.n.z;
-			obj.setBlock( bx, by, bz, this.buildMaterial );
-            if (this.mode != "annotation" || !this.actionExists(bx, by, bz, this.buildMaterial.id)) {
-                this.actions.push([[bx, by, bz], this.buildMaterial.id]);
+            bx += block.n.x;
+            by += block.n.y;
+            bz += block.n.z;
+			if (obj.setBlock(bx, by, bz, BLOCK.fromId(material_id)) && record_action) {
+                this.actions.push([[bx, by, bz], [BLOCK.AIR.id, material_id]]);
             }
         }
 	}
+}
+
+// undoAction()
+// undo a previous action on top of the actions stack
+// Note: there is no redo option currently. So this function is irreversible!
+
+Player.prototype.undoAction = function() {
+    if (this.actions.length == 0)
+        return false;
+    var a = this.actions.pop();
+    var n = {x: 0, y: 0, z: 0};
+    var block = {x: a[0][0], y: a[0][1], z: a[0][2], n:n};
+    var prev_id = a[1][0];
+    this.doBlockAction(block, (prev_id == 0), prev_id, false);
+    // update the action history
+    if (this.eventHandlers["playerActions"]) {
+        this.eventHandlers.playerActions(this.actionsToString());
+    }
 }
 
 // getEyePos()
