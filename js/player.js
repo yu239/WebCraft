@@ -38,6 +38,8 @@ Player.prototype.setWorld = function( world, mode)
 	this.buildMaterial = BLOCK.GRASS_DIRT;
 	this.eventHandlers = {};
     this.actions = []; // action history since beginning
+    this.label_action_idx = [];
+    this.labels = [];
     this.mode = mode;
 }
 
@@ -243,6 +245,28 @@ Player.prototype.actionExists = function(x, y, z, prev_id, cur_id) {
 }
 
 
+Player.prototype.recordLabel = function(label) {
+    if (this.actions.length == 0)
+        return;
+
+    if (this.label_action_idx.length == 0 ||
+        this.label_action_idx[this.label_action_idx.length - 1] != this.actions.length) {
+
+        if (this.label_action_idx.length > 0) {
+            var count = this.actions.length - this.label_action_idx[this.label_action_idx.length - 1];
+        } else {
+            var count = this.actions.length;
+        }
+        this.labels.push(label + " (" + count + ")");
+        this.label_action_idx.push(this.actions.length);
+    }
+
+    if (this.eventHandlers["playerLabels"]) {
+        this.eventHandlers.playerLabels(this.labels);
+    }
+}
+
+
 // doBlockActionXY( x, y )
 //
 // Called to perform an action based on the player's block selection and input.
@@ -252,11 +276,11 @@ Player.prototype.doBlockActionXY = function( x, y, destroy ) {
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
 	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - radius, bPos.y - radius, bPos.z - radius ),
                                              new Vector( bPos.x + radius, bPos.y + radius, bPos.z + radius ), x, y );
-    this.doBlockAction(block, destroy, this.buildMaterial.id, true);
+    this.doBlockAction(block, destroy, this.buildMaterial.id, false);
 }
 
 
-Player.prototype.doBlockAction = function( block, destroy, material_id, record_action) {
+Player.prototype.doBlockAction = function( block, destroy, material_id, revert) {
 	if ( block != false ) {
 		var obj = this.client ? this.client : this.world;
         var bx = block.x;
@@ -268,7 +292,7 @@ Player.prototype.doBlockAction = function( block, destroy, material_id, record_a
                 if (this.mode != "annotation"
                     || !this.actionExists(bx, by, bz,
                                           this.world.blocks[bx][by][bz].id, BLOCK.AIR.id)) {
-                    if (record_action) {
+                    if (!revert) {
                         this.actions.push([[bx, by, bz],
                                            [this.world.blocks[bx][by][bz].id, BLOCK.AIR.id]]);
                     }
@@ -278,11 +302,11 @@ Player.prototype.doBlockAction = function( block, destroy, material_id, record_a
                 else
                     obj.setBlockLM(bx, by, bz, 0.3);
             } // else do nothing
-        } else {
+        } else if (this.mode != "annotation" || revert) {
             bx += block.n.x;
             by += block.n.y;
             bz += block.n.z;
-			if (obj.setBlock(bx, by, bz, BLOCK.fromId(material_id)) && record_action) {
+			if (obj.setBlock(bx, by, bz, BLOCK.fromId(material_id)) && !revert) {
                 this.actions.push([[bx, by, bz], [BLOCK.AIR.id, material_id]]);
             }
         }
@@ -296,14 +320,24 @@ Player.prototype.doBlockAction = function( block, destroy, material_id, record_a
 Player.prototype.undoAction = function() {
     if (this.actions.length == 0)
         return false;
+
+    if (this.label_action_idx.length > 0
+        && this.actions.length == this.label_action_idx[this.label_action_idx.length - 1]) {
+        this.label_action_idx.pop();
+        this.labels.pop();
+    }
+
     var a = this.actions.pop();
     var n = {x: 0, y: 0, z: 0};
     var block = {x: a[0][0], y: a[0][1], z: a[0][2], n:n};
     var prev_id = a[1][0];
-    this.doBlockAction(block, (prev_id == 0), prev_id, false);
+    this.doBlockAction(block, (prev_id == 0), prev_id, true);
     // update the action history
     if (this.eventHandlers["playerActions"]) {
         this.eventHandlers.playerActions(this.actionsToString());
+    }
+    if (this.eventHandlers["playerLabels"]) {
+        this.eventHandlers.playerLabels(this.labels);
     }
 }
 
@@ -379,7 +413,7 @@ Player.prototype.update = function()
 		}
 
 		// Resolve collision
-		this.pos = this.resolveCollision( pos, bPos, velocity.mul( delta ) );
+        this.pos = this.resolveCollision( pos, bPos, velocity.mul( delta ) );
 	}
 
 	this.lastUpdate = new Date().getTime();

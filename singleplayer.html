@@ -309,7 +309,7 @@ body {
 			// Create a new flat world
 			var world = new World( 64, 64, 64 );
 		    world.createFlatWorld( 3 );
-//            world.createSchematic("data/schematic.npy", true, null);
+            world.createSchematic("data/schematic.npy", true, null);
 
 			// Set up renderer
 			var render = new Renderer( "renderSurface" );
@@ -351,6 +351,13 @@ body {
                 page.player_actions.innerHTML = "Actions: " + str;
             });
 
+            player.on("playerLabels", function(labels) {
+                page.chatboxText.innerHTML = '';
+                for (var i = 0; i < labels.length; i ++) {
+                    page.chatboxText.innerHTML += "&lt;<span style=\"color: #0a0\">Label:</span>&gt" + labels[i] + "<br />";
+                }
+            });
+
 			// Respond to chat message entry
    		    function onChatEnter( chatInput, keyEvent ) {
 				if ( keyEvent.key != "Enter")
@@ -361,7 +368,7 @@ body {
 				page.chatbox.style.height = null;
 				if ( msg.length == 0) return;
 
-			    page.chatboxText.innerHTML += "&lt;<span style=\"color: #0a0\">Label:</span>&gt" + msg + "<br />";
+                player.recordLabel(msg);
 				chatInput.value = "";
 			}
 
