@@ -76,8 +76,8 @@ Player.prototype.setInputCanvas = function( id )
 
     // Hook for updating viewing angles
     var updateAngles = function (e) {
-	    player.targetPitch = player.pitchStart - e.movementY / 600;
-	    player.targetYaw = player.yawStart + e.movementX / 600;
+	    player.targetPitch = player.pitchStart - e.movementY / 1200;
+	    player.targetYaw = player.yawStart + e.movementX / 1200;
         player.yawStart = player.targetYaw;
         player.pitchStart = player.targetPitch;
 	    canvas.style.cursor = "move";
@@ -272,7 +272,7 @@ Player.prototype.recordLabel = function(label) {
 // Called to perform an action based on the player's block selection and input.
 
 Player.prototype.doBlockActionXY = function( x, y, destroy ) {
-    var radius = 5;
+    var radius = 10;
 	var bPos = new Vector( Math.floor( this.pos.x ), Math.floor( this.pos.y ), Math.floor( this.pos.z ) );
 	var block = this.canvas.renderer.pickAt( new Vector( bPos.x - radius, bPos.y - radius, bPos.z - radius ),
                                              new Vector( bPos.x + radius, bPos.y + radius, bPos.z + radius ), x, y );
@@ -286,21 +286,20 @@ Player.prototype.doBlockAction = function( block, destroy, material_id, revert) 
         var bx = block.x;
         var by = block.y;
         var bz = block.z;
-        // prevent the player destroying ground blocks for annotation
 		if (destroy) {
-            if (this.mode != "annotation" || !this.world.groundBlock(block)) {
-                if (this.mode != "annotation"
-                    || !this.actionExists(bx, by, bz,
-                                          this.world.blocks[bx][by][bz].id, BLOCK.AIR.id)) {
-                    if (!revert) {
-                        this.actions.push([[bx, by, bz],
-                                           [this.world.blocks[bx][by][bz].id, BLOCK.AIR.id]]);
-                    }
+            if (!(this.mode == "annotation" && this.world.groundBlock(block))) {
+                if (!(revert ||
+                      (this.mode == "annotation"
+                       && this.actionExists(bx, by, bz, this.world.blocks[bx][by][bz].id, BLOCK.AIR.id)))) {
+                    this.actions.push([[bx, by, bz], [this.world.blocks[bx][by][bz].id, BLOCK.AIR.id]]);
                 }
-                if (this.mode != "annotation")
-                    obj.setBlock(bx, by, bz, BLOCK.AIR);
-                else
-                    obj.setBlockLM(bx, by, bz, 0.3);
+//                if (this.mode != "annotation")
+                obj.setBlock(bx, by, bz, BLOCK.AIR);
+//                else
+                //                    obj.setBlockLM(bx, by, bz, 0.3);
+                if (!this.world.groundBlock(block)) {
+                    this.world.interesting_blocks -= 1;
+                }
             } // else do nothing
         } else if (this.mode != "annotation" || revert) {
             bx += block.n.x;
@@ -309,8 +308,13 @@ Player.prototype.doBlockAction = function( block, destroy, material_id, revert) 
 			if (obj.setBlock(bx, by, bz, BLOCK.fromId(material_id)) && !revert) {
                 this.actions.push([[bx, by, bz], [BLOCK.AIR.id, material_id]]);
             }
+            this.world.interesting_blocks += 1;
         }
 	}
+
+    if (this.eventHandlers["blockChange"]) {
+        this.eventHandlers.blockChange(this.world.interesting_blocks);
+    }
 }
 
 // undoAction()

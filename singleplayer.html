@@ -192,8 +192,8 @@ body {
     height: 20px;
 }
 
-/* Instructions */
-#instructions {
+/* Manual */
+#manual {
 	position: absolute;
 	left: 20px;
 	top: 20px;
@@ -230,6 +230,40 @@ body {
     cursor: pointer;
 
     opacity: 0.8;
+}
+
+#task_description {
+	position: absolute;
+	left: 250px;
+	top: 18px;
+
+	width: 550px;
+	height: 150px;
+    padding-left: 10px;
+
+	background: rgba( 0, 0, 0, 0.3 );
+
+	color: orange;
+	font-family: minecraftia;
+	font-size: 15px;
+
+    border: 5px solid #ccc;
+}
+
+#block_count {
+	position: absolute;
+	left: 250px;
+	top: 180px;
+
+	width: 320px;
+	height: 40px;
+    padding-left: 10px;
+
+	background: rgba( 0, 0, 0, 0.3 );
+
+	color: cyan;
+	font-family: minecraftia;
+	font-size: 20px;
 }
 
 #schematic_upload_label:hover {
@@ -277,8 +311,8 @@ body {
         </label>
         <input type="file" id="schematic" style="display:none" onchange="onSchematicUploaded(this)"/>
 
-        <!-- Instructions -->
-        <div id="instructions">
+        <!-- Manual -->
+        <div id="manual">
           <table>
             <tr><td>w </td> <td>- Forward</td></tr>
             <tr><td>s </td> <td>- Backward</td></tr>
@@ -286,12 +320,25 @@ body {
             <tr><td>d </td> <td>- Right</td></tr>
             <tr><td>space </td> <td>- Up</td></tr>
             <tr><td>q </td> <td>- Down</td></tr>
-            <tr><td>e </td> <td>- Inventory</td></tr>
-            <tr><td>t </td> <td>- Chat</td></tr>
-            <tr><td>r </td> <td>- Undo last action</td></tr>
+            <!--tr><td>e </td> <td>- Inventory</td></tr-->
+            <tr><td>t </td> <td>- Label</td></tr>
+            <tr><td>r </td> <td>- Revert action</td></tr>
             <tr><td>esc </td> <td>- Cursor</td></tr>
             <tr>Try refreshing the page if the world is black.</tr>
           </table>
+        </div>
+
+        <div id="task_description">
+          &lt;Task&gt: Each time please delete a sequence of blocks as
+          a house component, and type a label for that component. Keep
+          deleting multiple such sequences until the entire house is
+          gone (0 remaining blocks). If you're not sure about the
+          label for a deleted block sequence, type 'none' as its
+          label.
+        </div>
+
+        <div id="block_count">
+          Remaining blocks: 0
         </div>
 
 		<!-- Initialisation code -->
@@ -305,11 +352,16 @@ body {
             page.canvas = document.getElementById("renderSurface");
             page.crosshair = document.getElementById("crosshair");
             page.player_actions = document.getElementById("player_actions");
+            page.block_count = document.getElementById("block_count");
 
 			// Create a new flat world
 			var world = new World( 64, 64, 64 );
 		    world.createFlatWorld( 3 );
-            world.createSchematic("data/schematic.npy", true, null);
+            world.createSchematic("data/schematic.npy", true,
+                                  function () {
+                                      page.block_count.innerHTML =
+			                              "Remaining blocks: " + world.interesting_blocks;
+                                  });
 
 			// Set up renderer
 			var render = new Renderer( "renderSurface" );
@@ -354,8 +406,12 @@ body {
             player.on("playerLabels", function(labels) {
                 page.chatboxText.innerHTML = '';
                 for (var i = 0; i < labels.length; i ++) {
-                    page.chatboxText.innerHTML += "&lt;<span style=\"color: #0a0\">Label:</span>&gt" + labels[i] + "<br />";
+                    page.chatboxText.innerHTML += "&lt;<span style=\"color: #0a0\">Label</span>&gt" + labels[i] + "<br />";
                 }
+            });
+
+            player.on("blockChange", function(count) {
+                page.block_count.innerHTML = "Remaining blocks: " + count;
             });
 
 			// Respond to chat message entry
@@ -377,7 +433,10 @@ body {
                 console.log(fileInput.value);
                 world.createSchematic(file, false,
                                       // callback to update rendering
-                                      function () { render.setWorld(world, 32); });
+                                      function () {
+                                          render.setWorld(world, 32);
+                                          page.block_count.innerHTML = "Remaining blocks: " + world.interesting_blocks;
+                                      });
                 fileInput.value = '';
             }
 

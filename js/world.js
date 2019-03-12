@@ -34,7 +34,7 @@ function World( sx, sy, sz )
 	this.sy = sy;
 	this.sz = sz;
 
-	this.players = {};
+    this.interesting_blocks = 0;
 }
 
 
@@ -89,8 +89,14 @@ World.prototype.createSchematic = function (path, is_url, callback) {
             for (var y = 0; y < Y; y ++)
                 for (var z = 0; z < Z; z ++) {
                     var idx = (z * (X * Y) + x * Y + y) * D;
+                    if (world.blocks[x + x_offset][y + y_offset][z + z_offset].id != 0) {
+                        world.interesting_blocks -= 1;
+                    }
                     world.blocks[x + x_offset][y + y_offset][z + z_offset] =
                         BLOCK.fromId(array.data[idx]);
+                    if (array.data[idx] != 0) {
+                        world.interesting_blocks += 1;
+                    }
                 }
         // callback after loading finishes
         if (callback != null) {
