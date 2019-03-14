@@ -34,6 +34,7 @@ Player.prototype.setWorld = function( world, mode)
     this.pointerLocked = false;
     this.inventory_open = false;
 	this.falling = false;
+    this.action_locked = false;
 	this.keys = {};
 	this.buildMaterial = BLOCK.GRASS_DIRT;
 	this.eventHandlers = {};
@@ -187,8 +188,26 @@ Player.prototype.on = function( event, callback )
 Player.prototype.onKeyEvent = function( keyCode, down )
 {
 	var key = String.fromCharCode( keyCode ).toLowerCase();
-	this.keys[key] = down;
-	this.keys[keyCode] = down;
+
+    if (key == "i" && this.keys[key] != down) {
+        for (var x = 0; x < this.world.sx; x ++)
+            for (var y = 0; y < this.world.sy; y ++)
+                for (var z = 0; z < this.world.sz; z ++)
+                    if (this.world.init_blocks[x][y][z].id > 0 && this.world.blocks[x][y][z].id == 0)
+                        this.world.blocks_lm[x][y][z] = 0.7;
+
+        var tmp_blocks = this.world.blocks;
+        this.world.blocks = this.world.init_blocks;
+        this.world.init_blocks = tmp_blocks;
+
+        if (down) {
+            this.action_locked = true;
+        } else {
+            this.action_locked = false;
+        }
+
+        this.world.renderer.refresh();
+    }
 
 	if (!down && key == "t" && this.eventHandlers["openChat"]) {
         this.eventHandlers.openChat();
@@ -205,6 +224,9 @@ Player.prototype.onKeyEvent = function( keyCode, down )
             this.eventHandlers.closeInventory();
         }
     }
+
+	this.keys[key] = down;
+	this.keys[keyCode] = down;
 }
 
 Player.prototype.actionsToString = function () {
@@ -212,8 +234,16 @@ Player.prototype.actionsToString = function () {
     for (var i = 0; i < this.actions.length; i ++) {
         var block = this.actions[i][0];
         var id = this.actions[i][1];
-        var change = "(" + block[0] + " " + block[1] + " " + block[2] + "): " + id[0] + "->" + id[1];
-        ret += change + ", ";
+        var change = "(" + block[0] + " " + block[1] + " " + block[2] + "): " + id[0] + "->" + id[1] + ", ";
+        var color;
+        if (this.label_action_idx.length > 0
+            && this.label_action_idx[this.label_action_idx.length- 1] > i) {
+            color = "#888";
+        } else {
+            color = "#fff";
+        }
+        change = "<span style=\"color: " + color + "\">" + change + "</span>";
+        ret += change;
     }
     return ret;
 }
@@ -281,6 +311,9 @@ Player.prototype.doBlockActionXY = function( x, y, destroy ) {
 
 
 Player.prototype.doBlockAction = function( block, destroy, material_id, revert) {
+    if (this.action_locked)
+        return;
+
 	if ( block != false ) {
 		var obj = this.client ? this.client : this.world;
         var bx = block.x;

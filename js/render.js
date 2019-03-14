@@ -489,6 +489,13 @@ Renderer.prototype.setWorld = function( world, chunkSize )
 	}
 }
 
+
+Renderer.prototype.refresh = function () {
+	for ( var i = 0; i < this.chunks.length; i++ )
+		this.chunks[i].dirty = true;
+}
+
+
 // onBlockChanged( x, y, z )
 //
 // Callback from world to inform the renderer of a changed block

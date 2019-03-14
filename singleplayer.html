@@ -168,7 +168,7 @@ body {
 	bottom: 18px;
     left: 250px;
 
-	width: 1000px;
+	width: 1050px;
 	height: 20px;
 
 	padding-left: 10px;
@@ -178,7 +178,7 @@ body {
 	border: none;
 	outline: none;
 
-	color: yellow;
+	color: white;
     font-size: 12px;
 }
 
@@ -196,10 +196,10 @@ body {
 #manual {
 	position: absolute;
 	left: 20px;
-	top: 20px;
+	top: 10px;
 
-	width: 200px;
-	height: 250px;
+	width: 250px;
+	height: 200px;
 
 	padding-left: 10px;
 	padding-right: 10px;
@@ -222,28 +222,26 @@ body {
 
 	background: rgba( 0, 0, 0, 0.3 );
 
-	color: yellow;
+	color: orange;
 	font-family: minecraftia;
 	font-size: 12px;
 
     border: 1px solid #ccc;
     cursor: pointer;
-
-    opacity: 0.8;
 }
 
 #task_description {
 	position: absolute;
-	left: 250px;
-	top: 18px;
+	left: 300px;
+	top: 10px;
 
-	width: 550px;
+	width: 1200px;
 	height: 150px;
     padding-left: 10px;
 
 	background: rgba( 0, 0, 0, 0.3 );
 
-	color: orange;
+	color: cyan;
 	font-family: minecraftia;
 	font-size: 15px;
 
@@ -252,8 +250,8 @@ body {
 
 #block_count {
 	position: absolute;
-	left: 250px;
-	top: 180px;
+	left: 300px;
+	top: 170px;
 
 	width: 320px;
 	height: 40px;
@@ -261,13 +259,13 @@ body {
 
 	background: rgba( 0, 0, 0, 0.3 );
 
-	color: cyan;
+	color: orange;
 	font-family: minecraftia;
 	font-size: 20px;
 }
 
 #schematic_upload_label:hover {
-    opacity: 1.0;
+    color: yellow;
 }
 
         </style>
@@ -314,27 +312,30 @@ body {
         <!-- Manual -->
         <div id="manual">
           <table>
-            <tr><td>w </td> <td>- Forward</td></tr>
-            <tr><td>s </td> <td>- Backward</td></tr>
-            <tr><td>a </td> <td>- Left</td></tr>
-            <tr><td>d </td> <td>- Right</td></tr>
-            <tr><td>space </td> <td>- Up</td></tr>
-            <tr><td>q </td> <td>- Down</td></tr>
+            <tr><td>w, s, a, d </td> <td>- Horizontal move</td></tr>
+            <tr><td>space, q </td> <td>- Vertical move</td></tr>
             <!--tr><td>e </td> <td>- Inventory</td></tr-->
-            <tr><td>t </td> <td>- Label</td></tr>
+            <tr><td>t </td> <td>- Label input</td></tr>
             <tr><td>r </td> <td>- Revert action</td></tr>
+            <tr><td>i (hold) </td> <td>- Check initial house</td></tr>
             <tr><td>esc </td> <td>- Cursor</td></tr>
             <tr>Try refreshing the page if the world is black.</tr>
           </table>
         </div>
 
         <div id="task_description">
-          &lt;Task&gt: Each time please delete a sequence of blocks as
-          a house component, and type a label for that component. Keep
-          deleting multiple such sequences until the entire house is
-          gone (0 remaining blocks). If you're not sure about the
-          label for a deleted block sequence, type 'none' as its
-          label.
+          Each time delete a sequence of blocks as a house component,
+          and type a label (e.g., ``window'', ``door'', ``fence'',
+          etc) for that component. Delete and label multiple sequences
+          until the entire house is gone (Remaining blocks: 0).
+          <ul>
+            <li>You can delete multiple components with identical
+            labels one after another.</li>
+            <li>If you're not sure about the label for a deleted block
+              sequence, type ``none'' as its label.</li>
+            <li>Delete every component as a (roughly) convex shape !!
+            Devide a big component into several small ones if possible.</li>
+          </ul>
         </div>
 
         <div id="block_count">
@@ -397,16 +398,27 @@ body {
                 page.canvas.requestPointerLock();
             });
 
-            player.on("playerActions", function(actions) {
-                var str = actions.length > 120?
-                    "... " + actions.substr(actions.length - 120): actions;
-                page.player_actions.innerHTML = "Actions: " + str;
+          player.on("playerActions", function(actions) {
+              var str;
+              if (actions.length > 360) {
+                  str = actions.substr(actions.length - 360);
+                  for (var i = 0; i < str.length; i ++) {
+                      if (str[i] == ',') {
+                          str = str.substr(i + 1);
+                          break;
+                      }
+                  }
+              } else {
+                  str = actions;
+              }
+              page.player_actions.innerHTML = "Actions: " + str;
             });
 
             player.on("playerLabels", function(labels) {
                 page.chatboxText.innerHTML = '';
                 for (var i = 0; i < labels.length; i ++) {
-                    page.chatboxText.innerHTML += "&lt;<span style=\"color: #0a0\">Label</span>&gt" + labels[i] + "<br />";
+                    page.chatboxText.innerHTML += "Label " + (i + 1) +
+                        ": " + labels[i] + "<br />";
                 }
             });
 
@@ -425,6 +437,7 @@ body {
 				if ( msg.length == 0) return;
 
                 player.recordLabel(msg);
+                player.eventHandlers.playerActions(player.actionsToString());
 				chatInput.value = "";
 			}
 
@@ -439,6 +452,9 @@ body {
                                       });
                 fileInput.value = '';
             }
+
+            // make sure everything is rendered
+            world.renderer.refresh();
 
             var render_interval = 0.033; // (seconds)
 			// Render loop

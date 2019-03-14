@@ -19,14 +19,17 @@ function World( sx, sy, sz )
 {
 	// Initialise world array
 	this.blocks = new Array( sx );
+    this.init_blocks = new Array(sx);
 	this.blocks_lm = new Array( sx );
 	for ( var x = 0; x < sx; x++ )
 	{
 		this.blocks[x] = new Array( sy );
+		this.init_blocks[x] = new Array( sy );
 		this.blocks_lm[x] = new Array( sy );
 		for ( var y = 0; y < sy; y++ )
 		{
 			this.blocks[x][y] = new Array( sz );
+			this.init_blocks[x][y] = new Array( sz );
 			this.blocks_lm[x][y] = new Array( sz );
 		}
 	}
@@ -98,6 +101,14 @@ World.prototype.createSchematic = function (path, is_url, callback) {
                         world.interesting_blocks += 1;
                     }
                 }
+
+        // make a copy of the init blocks
+        for (var x = 0; x < world.sx; x ++)
+            for (var y = 0; y < world.sy; y ++)
+                for (var z = 0; z < world.sz; z ++) {
+                    world.init_blocks[x][y][z] = world.blocks[x][y][z];
+                }
+
         // callback after loading finishes
         if (callback != null) {
             callback();
