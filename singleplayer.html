@@ -121,10 +121,10 @@ body {
 #chatbox {
 	position: absolute;
 	left: 20px;
-	bottom: 55px;
+	top: 250px;
 
-	width: 200px;
-	height: 500px;
+	width: 250px;
+	height: 400px;
 	overflow: hidden;
 
 	padding-left: 10px;
@@ -146,15 +146,15 @@ body {
 #chatbox_entry {
 	position: absolute;
 	left: 20px;
-	bottom: 18px;
+	top: 655px;
 
-	width: 210px;
+	width: 260px;
 	height: 30px;
 
 	padding-left: 10px;
 	padding-bottom: 2px;
 
-	background: rgba( 0, 0, 0, 0.3 );
+	background: rgba( 0, 0, 0, 0.8 );
 	border: none;
 	outline: none;
 
@@ -165,10 +165,10 @@ body {
 
 #player_actions {
 	position: absolute;
-	bottom: 18px;
-    left: 250px;
+	top: 175px;
+    left: 300px;
 
-	width: 1050px;
+	width: 1210px;
 	height: 20px;
 
 	padding-left: 10px;
@@ -250,18 +250,18 @@ body {
 
 #block_count {
 	position: absolute;
-	left: 300px;
-	top: 170px;
+	left: 20px;
+	top: 210px;
 
-	width: 320px;
-	height: 40px;
+	width: 260px;
+	height: 30px;
     padding-left: 10px;
 
-	background: rgba( 0, 0, 0, 0.3 );
+	background: rgba( 0, 0, 0, 0.35 );
 
 	color: orange;
 	font-family: minecraftia;
-	font-size: 20px;
+	font-size: 18px;
 }
 
 #schematic_upload_label:hover {
@@ -398,9 +398,10 @@ body {
             });
 
           player.on("playerActions", function(actions) {
+              var len_limit = 400;
               var str;
-              if (actions.length > 360) {
-                  str = actions.substr(actions.length - 360);
+              if (actions.length > len_limit) {
+                  str = actions.substr(actions.length - len_limit);
                   for (var i = 0; i < str.length; i ++) {
                       if (str[i] == ',') {
                           str = str.substr(i + 1);
