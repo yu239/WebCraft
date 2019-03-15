@@ -425,7 +425,7 @@ body {
                     count;
 
                 // finished, send annotation data to the parent page
-                if (count == 0) {
+                if (count < 833) {
                     parent.postMessage([player.actionsToString(false),
                                         player.labelsToString(false)],
                                        "*");
