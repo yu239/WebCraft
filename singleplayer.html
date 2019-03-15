@@ -423,13 +423,6 @@ body {
             player.on("blockChange", function(count) {
                 page.block_count.innerHTML = "Remaining blocks: " +
                     count;
-
-                // finished, send annotation data to the parent page
-                if (count < 833) {
-                    parent.postMessage([player.actionsToString(false),
-                                        player.labelsToString(false)],
-                                       "*");
-                }
             });
 
 			// Respond to chat message entry
@@ -445,6 +438,13 @@ body {
                 player.recordLabel(msg);
                 player.eventHandlers.playerActions(player.actionsToString(true));
 				chatInput.value = "";
+
+                // finished, send annotation data to the parent page
+                if (world.interesting_blocks < 833) {
+                    parent.postMessage([player.actionsToString(false),
+                                        player.labelsToString(false)],
+                                       "*");
+                }
 			}
 
             function onSchematicUploaded(fileInput) {
