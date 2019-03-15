@@ -425,6 +425,11 @@ body {
                     count;
             });
 
+            player.on("clickCanvas", function() {
+                // send a message to focus on the parent
+                parent.postMessage("canvas", "*");
+            });
+
 			// Respond to chat message entry
    		    function onChatEnter( chatInput, keyEvent ) {
 				if ( keyEvent.key != "Enter")
