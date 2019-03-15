@@ -72,7 +72,6 @@ Player.prototype.setInputCanvas = function( id )
 
     // once clicking on the canvas, pointer lock is enabled
     canvas.onclick = function() {
-        document.getElementById("manual").focus();
         canvas.requestPointerLock();
     };
 

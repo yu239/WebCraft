@@ -121,7 +121,7 @@ body {
 #chatbox {
 	position: absolute;
 	left: 20px;
-	top: 250px;
+	top: 230px;
 
 	width: 250px;
 	height: 400px;
@@ -146,16 +146,14 @@ body {
 #chatbox_entry {
 	position: absolute;
 	left: 20px;
-	top: 655px;
+	top: 635px;
 
 	width: 260px;
 	height: 30px;
 
-	padding-left: 10px;
-	padding-bottom: 2px;
-
-	background: rgba( 0, 0, 0, 0.8 );
-	border: none;
+	background: rgba( 0, 0, 0, 0.3 );
+	border: solid;
+    border-color: black;
 	outline: none;
 
 	color: white;
@@ -165,7 +163,7 @@ body {
 
 #player_actions {
 	position: absolute;
-	top: 175px;
+	top: 140px;
     left: 300px;
 
 	width: 1210px;
@@ -199,7 +197,7 @@ body {
 	top: 10px;
 
 	width: 250px;
-	height: 200px;
+	height: 180px;
 
 	padding-left: 10px;
 	padding-right: 10px;
@@ -236,14 +234,14 @@ body {
 	top: 10px;
 
 	width: 1200px;
-	height: 150px;
+	height: 120px;
     padding-left: 10px;
 
 	background: rgba( 0, 0, 0, 0.3 );
 
-	color: cyan;
+	color: yellow;
 	font-family: minecraftia;
-	font-size: 15px;
+	font-size: 13px;
 
     border: 5px solid #ccc;
 }
@@ -251,7 +249,7 @@ body {
 #block_count {
 	position: absolute;
 	left: 20px;
-	top: 210px;
+	top: 190px;
 
 	width: 260px;
 	height: 30px;
@@ -297,7 +295,7 @@ body {
 		       spellcheck="false" onkeypress="onChatEnter(this,event)" />
 
         <!-- Action history -->
-        <div id="player_actions"> </div>
+        <div id="player_actions">Actions:</div>
 
         <!-- Crosshair -->
         <div id="crosshair" style="visibility:visible">
@@ -324,16 +322,20 @@ body {
         </div>
 
         <div id="task_description">
-          Each time delete a sequence of blocks as a house component,
-          and type a label (e.g., ``window'', ``door'', ``fence'',
-          etc) for that component. Delete and label multiple sequences
-          until the entire house is gone (Remaining blocks: 0).
+          Task: Each time delete a sequence of blocks as a
+          <i>house component</i>, and type a label (e.g., ``window'',
+          ``door'', ``fence'', etc) for that component. Delete and
+          label multiple sequences until the entire house is gone
+          (Remaining blocks: 0).
           <ul>
-            <li>You can delete multiple components with identical
-            labels one after another.</li>
+            <li>You can use the same label for multiple components of
+            the same kind.</li>
             <li>If you're not sure about the label for a deleted block
               sequence, type ``none'' as its label.</li>
-            <li>Delete every component as a (roughly) convex shape !!</li>
+            <li>Delete every component as a
+            (roughly) <a href="https://dl.fbaipublicfiles.com/minecraftvision/convex_shape.html"
+            target="_blank" style="color: rgb(0,255,0)">convex</a> shape
+            !!</li>
           </ul>
         </div>
 
@@ -417,8 +419,8 @@ body {
             player.on("playerLabels", function(labels) {
                 page.chatboxText.innerHTML = '';
                 for (var i = 0; i < labels.length; i ++) {
-                    page.chatboxText.innerHTML += "Label " + (i + 1) +
-                        ": " + labels[i] + "<br />";
+                    page.chatboxText.innerHTML += "<span style='color:#888'>Label " + (i + 1) +
+                        ": </span>" + labels[i] + "<br />";
                 }
             });
 
