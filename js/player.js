@@ -229,21 +229,36 @@ Player.prototype.onKeyEvent = function( keyCode, down )
 	this.keys[keyCode] = down;
 }
 
-Player.prototype.actionsToString = function () {
+Player.prototype.actionsToString = function (show_color) {
     var ret = "";
     for (var i = 0; i < this.actions.length; i ++) {
         var block = this.actions[i][0];
         var id = this.actions[i][1];
         var change = "(" + block[0] + " " + block[1] + " " + block[2] + "): " + id[0] + "->" + id[1] + ", ";
-        var color;
-        if (this.label_action_idx.length > 0
-            && this.label_action_idx[this.label_action_idx.length- 1] > i) {
-            color = "#888";
-        } else {
-            color = "#fff";
+        if (show_color) {
+            var color;
+            if (this.label_action_idx.length > 0
+                && this.label_action_idx[this.label_action_idx.length- 1] > i) {
+                color = "#888";
+            } else {
+                color = "#fff";
+            }
+            change = "<span style=\"color: " + color + "\">" + change + "</span>";
         }
-        change = "<span style=\"color: " + color + "\">" + change + "</span>";
         ret += change;
+    }
+    return ret;
+}
+
+Player.prototype.labelsToString = function (show_color) {
+    var ret = "";
+    for (var i = 0; i < this.labels.length; i ++) {
+        if (show_color) {
+            ret += "<span style='color:#888'>Label " + (i + 1) +
+                ": </span>" + this.labels[i] + "<br />";
+        } else {
+            ret += this.labels[i] + " ";
+        }
     }
     return ret;
 }
@@ -258,7 +273,7 @@ Player.prototype.onMouseEvent = function( x, y, type, rmb )
 		this.canvas.style.cursor = "default";
         // update the action history
         if (this.eventHandlers["playerActions"]) {
-            this.eventHandlers.playerActions(this.actionsToString());
+            this.eventHandlers.playerActions(this.actionsToString(true));
         }
 	}
 }
@@ -292,7 +307,7 @@ Player.prototype.recordLabel = function(label) {
     }
 
     if (this.eventHandlers["playerLabels"]) {
-        this.eventHandlers.playerLabels(this.labels);
+        this.eventHandlers.playerLabels(this.labelsToString(true));
     }
 }
 
@@ -371,10 +386,10 @@ Player.prototype.undoAction = function() {
     this.doBlockAction(block, (prev_id == 0), prev_id, true);
     // update the action history
     if (this.eventHandlers["playerActions"]) {
-        this.eventHandlers.playerActions(this.actionsToString());
+        this.eventHandlers.playerActions(this.actionsToString(true));
     }
     if (this.eventHandlers["playerLabels"]) {
-        this.eventHandlers.playerLabels(this.labels);
+        this.eventHandlers.playerLabels(this.labelsToString(true));
     }
 }
 

@@ -399,7 +399,7 @@ body {
                 page.canvas.requestPointerLock();
             });
 
-          player.on("playerActions", function(actions) {
+            player.on("playerActions", function(actions) {
               var len_limit = 400;
               var str;
               if (actions.length > len_limit) {
@@ -417,15 +417,19 @@ body {
             });
 
             player.on("playerLabels", function(labels) {
-                page.chatboxText.innerHTML = '';
-                for (var i = 0; i < labels.length; i ++) {
-                    page.chatboxText.innerHTML += "<span style='color:#888'>Label " + (i + 1) +
-                        ": </span>" + labels[i] + "<br />";
-                }
+                page.chatboxText.innerHTML = labels;
             });
 
             player.on("blockChange", function(count) {
-                page.block_count.innerHTML = "Remaining blocks: " + count;
+                page.block_count.innerHTML = "Remaining blocks: " +
+                    count;
+
+                // finished, send annotation data to the parent page
+                if (count == 0) {
+                    parent.postMessage([player.actionsToString(false),
+                                        player.labelsToString(false)],
+                                       "*");
+                }
             });
 
 			// Respond to chat message entry
@@ -439,7 +443,7 @@ body {
 				if ( msg.length == 0) return;
 
                 player.recordLabel(msg);
-                player.eventHandlers.playerActions(player.actionsToString());
+                player.eventHandlers.playerActions(player.actionsToString(true));
 				chatInput.value = "";
 			}
 
