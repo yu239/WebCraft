@@ -33,6 +33,7 @@ Player.prototype.setWorld = function( world, mode)
 	this.pitchStart = this.targetPitch = this.angles[0];
     this.pointerLocked = false;
     this.inventory_open = false;
+    this.chat_open = false;
 	this.falling = false;
     this.action_locked = false;
 	this.keys = {};
@@ -101,16 +102,10 @@ Player.prototype.setInputCanvas = function( id )
 
 	var t = this;
 	document.onkeydown = function( e ) {
-        if ( e.target.tagName != "INPUT" ) {
-            t.onKeyEvent( e.keyCode, true );
-            return false;
-        }
+        return t.onKeyEvent( e, true );
     }
 	document.onkeyup = function( e ) {
-        if ( e.target.tagName != "INPUT" ) {
-            t.onKeyEvent( e.keyCode, false );
-            return false;
-        }
+        return t.onKeyEvent( e, false );
     }
 	canvas.onmousedown = function( e ) {
         t.onMouseEvent( e.clientX, e.clientY, MOUSE.DOWN, e.which == 3 );
@@ -182,13 +177,15 @@ Player.prototype.on = function( event, callback )
 	this.eventHandlers[event] = callback;
 }
 
-// onKeyEvent( keyCode, down )
+// onKeyEvent( e, down )
 //
 // Hook for keyboard input.
 
-Player.prototype.onKeyEvent = function( keyCode, down )
-{
-	var key = String.fromCharCode( keyCode ).toLowerCase();
+Player.prototype.onKeyEvent = function( e, down ) {
+    var key = e.key;
+
+    if (key != "/" && e.target.tagName == "INPUT")
+        return;
 
     if (key == "i" && this.keys[key] != down) {
         for (var x = 0; x < this.world.sx; x ++)
@@ -210,24 +207,31 @@ Player.prototype.onKeyEvent = function( keyCode, down )
         this.world.renderer.refresh();
     }
 
-	if (!down && key == "t" && this.eventHandlers["openChat"]) {
-        this.eventHandlers.openChat();
-    }
-	if (!down && key == "r") {
-        this.undoAction();
-    }
-    if (!down && key == "e") {
-        if (!this.inventory_open && this.eventHandlers["openInventory"]) {
-            this.inventory_open = true;
-            this.eventHandlers.openInventory();
-        } else if (this.inventory_open && this.eventHandlers["closeInventory"]) {
-            this.inventory_open = false;
-            this.eventHandlers.closeInventory();
+	if (!down && key == "/") {
+        if (!this.chat_open) {
+            this.chat_open = true;
+            this.eventHandlers.openChat();
+        } else {
+            this.chat_open = false;
+            this.eventHandlers.closeChat();
         }
     }
+	if (!down && key == "u") {
+        this.undoAction();
+    }
+    // if (!down && key == "e") {
+    //     if (!this.inventory_open && this.eventHandlers["openInventory"]) {
+    //         this.inventory_open = true;
+    //         this.eventHandlers.openInventory();
+    //     } else if (this.inventory_open && this.eventHandlers["closeInventory"]) {
+    //         this.inventory_open = false;
+    //         this.eventHandlers.closeInventory();
+    //     }
+    // }
 
 	this.keys[key] = down;
-	this.keys[keyCode] = down;
+
+    return false;
 }
 
 Player.prototype.actionsToString = function (show_color) {
