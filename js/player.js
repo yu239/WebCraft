@@ -42,8 +42,8 @@ Player.prototype.setWorld = function( world, mode)
     this.actions = []; // action history since beginning
     this.label_action_idx = [];
     this.labels = [];
-    this.segments_upper_limit = 3;  // the maximum number of segments to annotate
-    this.segments_lower_limit = 2;    // the minimum number of segments to annotate
+    this.segments_upper_limit = 100;  // the maximum number of segments to annotate
+    this.segments_lower_limit = 5;    // the minimum number of segments to annotate
     this.mode = mode;
 }
 

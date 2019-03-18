@@ -455,7 +455,7 @@ body {
 				chatInput.value = "";
 
                 // finished, send annotation data to the parent page
-                if (world.interesting_blocks < 833) {
+                if (world.interesting_blocks == 0) {
                     parent.postMessage([player.actionsToString(false),
                                         player.labelsToString(false),
                                         player.segments_lower_limit,
