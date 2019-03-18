@@ -455,10 +455,19 @@ body {
 				chatInput.value = "";
 
                 // finished, send annotation data to the parent page
-                if (world.interesting_blocks == 0) {
+                if (world.interesting_blocks < 833) {
                     parent.postMessage([player.actionsToString(false),
-                                        player.labelsToString(false)],
+                                        player.labelsToString(false),
+                                        player.segments_lower_limit,
+                                        player.segments_upper_limit
+                                       ],
                                        "*");
+                }
+
+                // check if the number of segments has exceeded a number
+                if (player.label_action_idx.length > player.segments_upper_limit) {
+                    alert("Friendly warning: Too many segments! Please
+                undo and merge some of them.");
                 }
 			}
 
