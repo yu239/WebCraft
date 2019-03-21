@@ -189,7 +189,6 @@ body {
     position: absolute;
     left: 49%;
     bottom: 49%;
-    opacity: 0.8;
     width: 20px;
     height: 20px;
 }
@@ -266,6 +265,28 @@ body {
 	font-size: 18px;
 }
 
+#activation {
+    position: absolute;
+    left: 38%;
+    bottom: 44%;
+    width: 250px;
+    height: 80px;
+	background: rgba( 0, 0, 0, 1.0 );
+	color: red;
+    padding: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+	font-family: minecraftia;
+	font-size: 50px;
+    border: 3px solid #ccc;
+    opacity: 0.7;
+}
+
+#activation:hover {
+    opacity: 1.0;
+    cursor: pointer;
+}
+
 #schematic_upload_label:hover {
     color: yellow;
 }
@@ -324,7 +345,9 @@ body {
             <tr>Try refreshing the page if the world is black or
             incompletely loaded.</tr>
           </table>
-        </div>
+       </div>
+
+       <div id="activation">Activate</div>
 
         <div id="task_description">
           Task: Delete a segment of blocks, and then label the segment
@@ -349,6 +372,16 @@ body {
             page.crosshair = document.getElementById("crosshair");
             page.player_actions = document.getElementById("player_actions");
             page.block_count = document.getElementById("block_count");
+            page.activation = document.getElementById("activation");
+
+          window.onload = function () {
+              window.onfocus = function () {
+                  page.activation.style.visibility = "hidden";
+              };
+              window.onblur = function () {
+                  page.activation.style.visibility = "visible";
+              };
+          };
 
 			// Create a new flat world
 			var world = new World( 64, 64, 64 );
