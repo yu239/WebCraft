@@ -4,14 +4,12 @@ import xmltodict
 
 class MTurk(object):
 ###### sandbox ##########
-#    MTURK_SANDBOX = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
-#    ACCESS_KEY = 'AKIAJZELXUJ7BU6BGKGA'
-#    SECRET_KEY = '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'
+    MTURK_SANDBOX = 'https://mturk-requester-sandbox.us-east-1.amazonaws.com'
 #    QUAL_TYPEID = "3D7IKCYTLTMXF4WU15WR72DWKTQNMG"
 ######## live marketplace #########
-    ACCESS_KEY = 'AKIAIVNSHI55YN4VWRXQ'
-    SECRET_KEY = '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'
-#    QUAL_TYPEID = "332K4KOFDMPRQEYAN6VOZ4WTAXR0DX"
+######## Provide the correct keys before running this script !!! #############
+    ACCESS_KEY = ''
+    SECRET_KEY = ''
     QUAL_TYPEID = "3HHPXX6GR7J5DN1CVIEOMJNP6LMJBH"
 
     def __init__(self, sandbox):
@@ -47,6 +45,9 @@ class MTurk(object):
             self.client.disassociate_qualification_from_worker(
                 QualificationTypeId=self.QUAL_TYPEID,
                 WorkerId=worker_id)
+
+    def get_balance(self):
+        return self.client.get_account_balance()['AvailableBalance']
 
 
 if __name__ == "__main__":
